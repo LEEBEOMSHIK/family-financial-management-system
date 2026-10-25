@@ -1,0 +1,19 @@
+@import './tokens.css';
+@import './theme.css';
+@import './components.css';
+
+* { box-sizing: border-box; }
+html { font-size: 100%; }
+body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: var(--font-sans); font-size: var(--font-size-md); line-height: var(--line-height-body); }
+button, input, select, textarea { font: inherit; }
+a { color: var(--color-accent); text-underline-offset: .2em; }
+:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; }
+main { scroll-margin-top: var(--space-6); }
+h1, h2, h3, p { margin-top: 0; }
+h1 { font-size: var(--font-size-2xl); line-height: 1.3; }
+h2 { font-size: var(--font-size-lg); line-height: 1.4; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.skip-link { position: absolute; top: -100px; left: var(--space-4); background: var(--color-surface); padding: var(--space-3); z-index: 100; }
+.skip-link:focus { top: var(--space-4); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+@media (forced-colors: active) { .fl-button, .fl-badge, .fl-card { border: 1px solid CanvasText; } }

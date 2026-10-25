@@ -1,0 +1,33 @@
+{
+  "status": "WORKFLOW_NOT_CONFIGURED",
+  "current": [
+    {
+      "name": "foundation",
+      "command": "python scripts/validate_foundation.py"
+    }
+  ],
+  "required_after_P1": [
+    "web_typecheck",
+    "web_lint",
+    "web_build",
+    "api_lint",
+    "domain_tests",
+    "authorization_integration",
+    "contract_diff"
+  ],
+  "required_by_changed_scope": [
+    "migration_and_restore",
+    "file_security",
+    "notification_clock_and_retry",
+    "ai_acl_and_citations",
+    "e2e_and_accessibility"
+  ],
+  "release_blockers": [
+    "permission_leak",
+    "money_mismatch",
+    "duplicate_ledger",
+    "evidence_loss",
+    "wrong_recipient",
+    "unconfigured_policy_active"
+  ]
+}

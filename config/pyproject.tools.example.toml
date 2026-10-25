@@ -1,0 +1,17 @@
+# Merge into the API pyproject.toml after selecting and testing tool versions.
+# This is tool configuration only, NOT an installable package manifest.
+[tool.ruff]
+line-length = 100
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+markers = [
+  "integration: requires the dedicated native PostgreSQL test database",
+  "contract: provider adapter contract tests",
+  "security: permission and data exposure tests",
+]

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "draft_version": "0.1.0",
+  "as_of": "2026-10-23",
+  "confirmed": {
+    "frontend": [
+      "Next.js",
+      "TypeScript"
+    ],
+    "backend_language": "Python",
+    "first_bank": "KakaoBank",
+    "local_docker": false,
+    "production_docker_only": true,
+    "manual_transfer_by_current_treasurer": true,
+    "reminder_offsets_days": [
+      -1,
+      0,
+      1
+    ],
+    "preferred_notification_channel": "KakaoTalk",
+    "structured_and_rag_separated": true,
+    "rbac_required": true,
+    "evidence_history_required": true
+  },
+  "proposed": {
+    "backend_framework": "FastAPI",
+    "database": "PostgreSQL",
+    "architecture": "modular_monolith_with_worker",
+    "ui": "semantic_css_tokens",
+    "business_timezone": "Asia/Seoul",
+    "notification_time": "09:00"
+  },
+  "unverified": [
+    "regulation_original",
+    "bank_api_eligibility",
+    "bank_statement_format",
+    "kakao_contract_and_template",
+    "auth_provider",
+    "dependency_versions",
+    "retention",
+    "approval_and_voting_rules",
+    "deployment_provider"
+  ],
+  "implementation_complete": false
+}

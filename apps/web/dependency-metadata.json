@@ -1,0 +1,83 @@
+{
+  "verified_on": "2026-10-23",
+  "packages": [
+    {
+      "name": "next",
+      "version": "16.4.2",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/next/v/16.4.2"
+    },
+    {
+      "name": "react",
+      "version": "19.3.1",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/react/v/19.3.1"
+    },
+    {
+      "name": "react-dom",
+      "version": "19.3.1",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/react-dom/v/19.3.1"
+    },
+    {
+      "name": "@eslint/js",
+      "version": "10.0.1",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/@eslint/js/v/10.0.1"
+    },
+    {
+      "name": "@playwright/test",
+      "version": "1.64.1",
+      "license": "Apache-2.0",
+      "source": "https://www.npmjs.com/package/@playwright/test/v/1.64.1"
+    },
+    {
+      "name": "@types/node",
+      "version": "24.19.2",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/@types/node/v/24.19.2"
+    },
+    {
+      "name": "@types/react",
+      "version": "19.3.0",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/@types/react/v/19.3.0"
+    },
+    {
+      "name": "@types/react-dom",
+      "version": "19.2.3",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/@types/react-dom/v/19.2.3"
+    },
+    {
+      "name": "eslint",
+      "version": "10.13.0",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/eslint/v/10.13.0"
+    },
+    {
+      "name": "eslint-plugin-react-hooks",
+      "version": "7.1.1",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/eslint-plugin-react-hooks/v/7.1.1"
+    },
+    {
+      "name": "openapi-typescript",
+      "version": "7.13.0",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/openapi-typescript/v/7.13.0"
+    },
+    {
+      "name": "typescript",
+      "version": "5.9.3",
+      "license": "Apache-2.0",
+      "source": "https://www.npmjs.com/package/typescript/v/5.9.3"
+    },
+    {
+      "name": "typescript-eslint",
+      "version": "8.72.0",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/typescript-eslint/v/8.72.0"
+    }
+  ]
+}

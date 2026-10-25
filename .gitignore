@@ -1,0 +1,28 @@
+node_modules/
+.next/
+out/
+dist/
+.venv/
+.venv-pg/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.env
+.env.*
+!.env.example
+var/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+*.log
+*.pem
+*.key
+*.p12
+# Do not commit real bank statements, evidence, DB dumps, or source regulations.
+private-data/
+
+# Local IDE workspace settings (not application inputs).
+.idea/

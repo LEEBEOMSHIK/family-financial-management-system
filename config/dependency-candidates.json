@@ -1,0 +1,57 @@
+{
+  "status": "PROPOSED_NOT_INSTALLED",
+  "versions_locked": false,
+  "candidates": [
+    {
+      "area": "web",
+      "packages": [
+        "next",
+        "react",
+        "react-dom",
+        "typescript"
+      ],
+      "exact_versions": null
+    },
+    {
+      "area": "api",
+      "packages": [
+        "fastapi",
+        "pydantic",
+        "uvicorn"
+      ],
+      "exact_versions": null
+    },
+    {
+      "area": "database",
+      "packages": [
+        "sqlalchemy",
+        "alembic"
+      ],
+      "driver": "UNVERIFIED",
+      "exact_versions": null
+    },
+    {
+      "area": "xlsx",
+      "packages": [
+        "openpyxl",
+        "defusedxml"
+      ],
+      "exact_versions": null
+    },
+    {
+      "area": "quality",
+      "packages": [
+        "pytest",
+        "ruff",
+        "@playwright/test"
+      ],
+      "exact_versions": null
+    }
+  ],
+  "adoption_gate": [
+    "official_release_and_license_review",
+    "native_os_cpu_install",
+    "representative_tests",
+    "lockfile_and_adr"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "status": "UNVERIFIED",
+  "source_document": "가족모임 운영규정 v1.0(시범운영)",
+  "source_sha256": null,
+  "source_reference": null,
+  "policy_version": null,
+  "effective_from": null,
+  "activated": false,
+  "on_unconfigured": "deny_policy_dependent_mutations",
+  "dues": {
+    "basis": null,
+    "amount_krw": null,
+    "period": null,
+    "due_day": null,
+    "exemptions": null,
+    "late_policy": null
+  },
+  "approvals": {
+    "steps": null,
+    "thresholds": null,
+    "self_approval": null,
+    "partial_payment": null
+  },
+  "roles": {
+    "appointment": null,
+    "terms": null,
+    "concurrent_treasurers": null,
+    "vacancy": null
+  },
+  "voting": {
+    "unit": null,
+    "quorum": null,
+    "majority": null,
+    "tie": null,
+    "abstention": null,
+    "secret_ballot": null,
+    "revote": null
+  },
+  "disclosure": {
+    "member_scope": null
+  },
+  "evidence": {
+    "required": null,
+    "grace_period": null
+  },
+  "retention": {
+    "ledger": null,
+    "evidence": null,
+    "votes": null,
+    "audit": null,
+    "backups": null
+  }
+}

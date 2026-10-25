@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "policy_status": "CONFIRMED_OFFSETS_PROPOSED_DELIVERY_DETAILS",
+  "timezone": "Asia/Seoul",
+  "local_time_proposed": "09:00",
+  "production_policy_approved": false,
+  "offsets": [
+    {
+      "days": -1,
+      "enabled": true
+    },
+    {
+      "days": 0,
+      "enabled": true
+    },
+    {
+      "days": 1,
+      "enabled": true,
+      "only_if_unprocessed": true
+    }
+  ],
+  "recipient_role": "current_treasurer",
+  "resolve_recipient": "immediately_before_send",
+  "unprocessed_definition_proposed": "approved_scheduled_without_valid_payment_record",
+  "preferred_channel": "kakaotalk",
+  "transport": "sink",
+  "external_delivery_enabled": false,
+  "holiday_shift_proposed": "none",
+  "missed_delivery_window_proposed": "same_local_day_only",
+  "repeat_after_d_plus_1": false,
+  "unknown_result": "hold_and_reconcile",
+  "recipient_missing_or_multiple": "block_and_surface_in_web",
+  "unique_event_key": [
+    "family_id",
+    "intent_id",
+    "schedule_revision",
+    "offset_day"
+  ],
+  "delivery_slot_key": [
+    "family_id",
+    "obligation_id",
+    "local_date",
+    "offset_day",
+    "channel"
+  ],
+  "hold_across_revisions_and_recipients": [
+    "accepted",
+    "delivered",
+    "unknown"
+  ],
+  "already_sent_same_date_offset": "suppress_automatic_repeat"
+}
