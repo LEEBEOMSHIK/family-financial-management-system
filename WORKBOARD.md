@@ -121,6 +121,8 @@ WB-20 / R21·R19: 핀 추가 후 설명 자동 포커스·신고 아이콘 반�
 
 ## 최근 갱신
 
+- 2026-10-28 / WB-09 커밋·푸시: 운영 인증·백업/복구 검증·EC2 후속 요청 템플릿 등 16개 파일을 `b530357`로 origin/main에 푸시 완료. 기존 API 고유133(재검증 포함) 및 운영 웹 smoke 결과 유지. 이번에는 foundation·정확한 stage 목록·staged diff 검사 통과. 키·DB·백업·실자료 제외, 파일 삭제 없음. [서버 준비 후 요청 양식](docs/operations/ec2-readiness.md#서버-준비-후-작업-요청-템플릿). 실제 EC2 생성·접속·배포는 미실행.
+
 - 2026-10-28 / WB-09·R03·R14·R18·P6: production HTTPS 로그인 설정·Secure 쿠키·개발 설정 시작 차단, 동일 snapshot 기반 백업/복구 비교 구현. 실제 로컬 자료의 격리 복원 내용·합계·복호화·원본 hash 일치 확인. API 고유133 통과(전체128/문구 기대값1실패 후 관련24 재검증 포함), 웹 운영 개발 로그인 차단 smoke 통과, 타입/lint/ruff/pip/theme9/foundation 통과. EC2/TLS·runtime GRANT/복원 후 API 인수·비밀번호 복구·운영 자동 백업은 남음. [파일·명령·실패/재검증·한계](docs/plans/ec2-operational-readiness.md), [운영 안내](docs/operations/ec2-readiness.md). 커밋·푸시·배포 없음.
 
 - 2026-10-28 / WB-05 커밋·푸시 준비 및 WB-09 범위 확인: WB-05 코드·테스트·검증 기록 11개 파일을 f5ebb63으로 커밋하여 origin/main 푸시 완료. 기존 API120·브라우저45 통과와 실기 미검증 범위 유지. 이번 커밋 전 foundation·staged diff 검사 및 정확한 stage 목록 비교 통과. 실자료·DB·로그 제외, 파일 삭제 없음.
