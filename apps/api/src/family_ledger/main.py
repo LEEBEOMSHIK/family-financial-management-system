@@ -3,17 +3,18 @@
 import os
 import secrets
 from dataclasses import dataclass
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from urllib.parse import urlsplit
 
 import psycopg
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Query, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from .auth import AuthError, LocalAuth
 from .auth_models import InvitationResponse, PasswordLogin, RegisterRequest
+from .cash_flow import FlowResponse, FlowUnit, bank_flow, synthetic_flow
 from .dashboard_layout import LayoutRepository, LayoutResponse, LayoutWrite
 from .domain import AS_OF, FAMILY, ReadService, Repository, SyntheticRepository
 from .models import (
@@ -184,27 +185,28 @@ def create_app(
         )
         if session is None or session.expires_at <= app.state.clock():
             raise AccessError(401, "AUTH_REQUIRED", "개발용 계정으로 로그인해 주세요.")
-        if not service.capabilities(
+        capabilities = service.capabilities(
             session.user_id, session.family_id, app.state.clock()
-        ):
+        )
+        if not capabilities:
             raise AccessError(
                 403, "MEMBERSHIP_REQUIRED", "현재 가족 구성원 권한이 없습니다."
             )
+        # Request-local only: never carry authorization across requests.
+        request.state.capabilities = capabilities
         return session
 
     def family_access(request: Request, family_id: str, capability: str) -> Session:
         session = authenticated(request)
         if session.family_id != family_id:
             raise AccessError(404, "NOT_FOUND", "자료를 찾을 수 없습니다.")
-        if capability not in service.capabilities(
-            session.user_id, family_id, app.state.clock()
-        ):
+        if capability not in request.state.capabilities:
             raise AccessError(
                 403, "FORBIDDEN", "현재 역할로는 이 화면에 접근할 수 없습니다."
             )
         return session
 
-    def session_response(session: Session) -> SessionResponse:
+    def session_response(session: Session, capabilities: list[str] | None = None) -> SessionResponse:
         return SessionResponse(
             user=User(
                 id=session.user_id,
@@ -220,7 +222,7 @@ def create_app(
             ),
             family_id=session.family_id,
             csrf_token=session.csrf_token,
-            capabilities=service.capabilities(
+            capabilities=capabilities if capabilities is not None else service.capabilities(
                 session.user_id, session.family_id, app.state.clock()
             ),
         )
@@ -268,7 +270,8 @@ def create_app(
         def issue_session(
             user_id: str, request: Request, response: Response
         ) -> SessionResponse:
-            if not service.capabilities(user_id, FAMILY, app.state.clock()):
+            capabilities = service.capabilities(user_id, FAMILY, app.state.clock())
+            if not capabilities:
                 raise AccessError(
                     403, "MEMBERSHIP_REQUIRED", "현재 가족 구성원 권한이 없습니다."
                 )
@@ -283,7 +286,7 @@ def create_app(
                 secure=False,
                 path="/",
             )
-            return session_response(session)
+            return session_response(session, capabilities)
 
         @app.post("/api/v1/auth/login", response_model=SessionResponse)
         def password_login(
@@ -328,7 +331,8 @@ def create_app(
 
     @app.get("/api/v1/session", response_model=SessionResponse)
     def get_session(request: Request) -> SessionResponse:
-        return session_response(authenticated(request))
+        session = authenticated(request)
+        return session_response(session, request.state.capabilities)
 
     @app.delete("/api/v1/session", status_code=204)
     def logout(request: Request) -> Response:
@@ -391,11 +395,26 @@ def create_app(
             family_id, session.user_id, app.state.clock(), body
         )
 
+    @app.get('/api/v1/families/{family_id}/dashboard/flow', response_model=FlowResponse)
+    def flow(family_id: str, request: Request, unit: FlowUnit = 'month') -> FlowResponse:
+        session = family_access(request, family_id, 'view_dashboard')
+        now = app.state.clock()
+        if config.database_url:
+            imported = bank_flow(config.database_url, family_id, session.user_id, now, unit)
+            if imported is not None:
+                return imported
+        return synthetic_flow(service.repository, family_id, now, unit)
+
     @app.get("/api/v1/families/{family_id}/dashboard", response_model=DashboardResponse)
     def dashboard(
         family_id: str, request: Request, period: Period = "month"
     ) -> DashboardResponse:
-        family_access(request, family_id, "view_dashboard")
+        session = family_access(request, family_id, "view_dashboard")
+        if config.database_url:
+            from .documents.dashboard import imported_dashboard
+            imported = imported_dashboard(config.database_url, family_id, session.user_id, app.state.clock(), period)
+            if imported is not None:
+                return imported
         return service.dashboard(family_id, period)
 
     @app.get(
@@ -406,10 +425,24 @@ def create_app(
         request: Request,
         period: Period = "month",
         direction: Direction = "all",
+        start_on: date | None = None,
+        end_on: date | None = None,
+        offset: int = Query(default=0, ge=0, le=100000),
+        limit: int = Query(default=50, ge=1, le=100),
     ) -> TransactionsResponse:
-        family_access(request, family_id, "view_transactions")
+        session = family_access(request, family_id, "view_transactions")
+        if config.database_url:
+            from .documents.transactions import imported_transactions
+            imported = imported_transactions(config.database_url, family_id, session.user_id, app.state.clock(), direction, start_on, end_on, offset, limit)
+            if imported is not None:
+                return imported
+        items = service.transactions(family_id, period, direction)
+        income = sum(int(item.amount_krw) for item in items if int(item.amount_krw) > 0)
+        expense = -sum(int(item.amount_krw) for item in items if int(item.amount_krw) < 0)
         return TransactionsResponse(
-            items=service.transactions(family_id, period, direction), as_of=AS_OF
+            items=items[offset:offset + limit], as_of=AS_OF,
+            total=len(items), offset=offset, limit=limit,
+            income_krw=str(income), expense_krw=str(expense), net_krw=str(income-expense),
         )
 
     @app.get(
@@ -459,8 +492,17 @@ def create_app(
 
     if config.database_url and auth:
         from .banking.routes import financial_router
+        from .documents.routes import document_router
+        from .dues.routes import dues_router
+        from .support.routes import support_router
+
+        app.include_router(support_router(config.database_url, authenticated, origin_check, lambda: app.state.clock()))
         from .expenses.routes import expense_router
 
+        app.include_router(dues_router(config.database_url, authenticated, origin_check, lambda: app.state.clock()))
+        app.include_router(
+            document_router(config.database_url, authenticated, origin_check, lambda: app.state.clock())
+        )
         app.include_router(
             financial_router(
                 config.database_url,

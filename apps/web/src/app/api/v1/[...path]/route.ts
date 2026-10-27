@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
-const paths = /^(session|auth\/(login|register)|families\/[0-9a-f-]{36}\/(dashboard-layout|dashboard|transactions|management|roles|invitations|bank-accounts(?:\/[0-9a-f-]{36}\/(?:default|reveal))?|evidence(?:\/[0-9a-f-]{36}\/preview)?|expenses(?:\/[0-9a-f-]{36}(?:\/(?:decisions|evidence|payee-account|payment))?)?))$/;
+const paths = /^(session|auth\/(login|register)|families\/[0-9a-f-]{36}\/(issues(?:\/[0-9a-f-]{36}(?:\/(?:events|image))?)?|documents(?:\/evidence(?:\/[0-9a-f-]{36}\/download)?|\/[0-9a-f-]{36}\/(?:versions|download|sync))?|participants(?:\/[0-9a-f-]{36}\/(?:invite|profile))?|dues(?:\/reconcile)?|dashboard-layout|dashboard(?:\/flow)?|transactions|management|roles|invitations|bank-accounts(?:\/[0-9a-f-]{36}\/(?:default|reveal))?|evidence(?:\/[0-9a-f-]{36}\/preview)?|expenses(?:\/[0-9a-f-]{36}(?:\/(?:decisions|evidence|payee-account|payment))?)?))$/;
 
 async function boundedBody(request: NextRequest, limit: number) {
   const reader = request.body?.getReader();
@@ -37,14 +37,14 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
     if (value) headers.set(key, value);
   }
   try {
-    const upload = request.method === 'POST' && resource.endsWith('/evidence') && !resource.includes('/expenses/');
-    const body = request.method === 'GET' ? undefined : await boundedBody(request, upload ? 6 * 1024 * 1024 : 4096);
+    const upload = request.method === 'POST' && ((resource.endsWith('/evidence') && !resource.includes('/expenses/')) || resource.endsWith('/documents'));
+    const body = request.method === 'GET' ? undefined : await boundedBody(request, upload || /\/issues(?:\/|$)/.test(resource) ? 6 * 1024 * 1024 : 4096);
     const response = await fetch(url, {
       method: request.method, headers, body: body || undefined,
       cache: 'no-store', redirect: 'error', signal: AbortSignal.timeout(5000),
     });
     const outgoing = new Headers({ 'Cache-Control': 'private, no-store', 'X-Content-Type-Options': 'nosniff' });
-    for (const key of ['content-type', 'set-cookie']) {
+    for (const key of ['content-type', 'content-disposition', 'content-security-policy', 'set-cookie']) {
       const value = response.headers.get(key);
       if (value) outgoing.set(key, value);
     }

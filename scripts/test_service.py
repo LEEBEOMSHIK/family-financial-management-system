@@ -58,7 +58,7 @@ def main() -> int:
                 repo = PostgresRepository(app)
                 repo.change(administrator, RoleChange(user_id=uid, role="treasurer", expected_version=repo.snapshot(now).version, reason="Test fixture"), now)
         credential_file.write_text(json.dumps(credentials), encoding="utf-8")
-        env = {**os.environ, "APP_ENV": "development", "AUTH_PROVIDER": "local_password", "DATABASE_URL": app, "WEB_ORIGIN": "http://127.0.0.1:3001", "API_INTERNAL_URL": "http://127.0.0.1:8001", "E2E_BASE_URL": "http://127.0.0.1:3001", "E2E_CREDENTIALS": str(credential_file), "NEXT_TELEMETRY_DISABLED": "1", "PYTHONUTF8": "1"}
+        env = {**os.environ, "APP_ENV": "development", "AUTH_PROVIDER": "local_password", "DATABASE_URL": app, "WEB_ORIGIN": "http://127.0.0.1:3001", "API_INTERNAL_URL": "http://127.0.0.1:8001", "E2E_BASE_URL": "http://127.0.0.1:3001", "E2E_API_URL": "http://127.0.0.1:8001", "E2E_CREDENTIALS": str(credential_file), "NEXT_TELEMETRY_DISABLED": "1", "PYTHONUTF8": "1"}
         env["DEV_ACCOUNTS_FILE"] = str(credential_file)
         env.pop("FINANCIAL_DATA_KEY", None)
         commands = [([sys.executable, "-m", "uvicorn", "family_ledger.main:create_app", "--factory", "--app-dir", "apps/api/src", "--host", "127.0.0.1", "--port", "8001", "--no-access-log"], ROOT),

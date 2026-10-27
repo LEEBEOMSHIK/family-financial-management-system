@@ -15,6 +15,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "html-to-image": "1.11.13",
     "next": "16.4.2",
     "react": "19.3.1",
     "react-dom": "19.3.1"

@@ -6,6 +6,7 @@ export function NavIcon({ name }: { name: string }) {
     accounts: 'M3 5h18v14H3zM3 10h18M6 15h4',
     settings: 'M4 6h16M4 12h16M4 18h16M8 3v6m8 0v6m-7 0v6',
     management: 'M8 4H5v17h14V4h-3M8 3h8v4H8zM8 12h8m-8 4h5',
+    support: 'M4 4h16v12H9l-5 4V4zM8 8h8m-8 4h5',
     menu: 'M4 6h16M4 12h16M4 18h16',
   };
   return <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name] || paths.dashboard}/></svg>;

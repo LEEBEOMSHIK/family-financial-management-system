@@ -21,6 +21,8 @@
   --color-danger: #FDA4AF;
   --color-danger-bg: #3D202A;
   --color-on-danger: #15263F;
+  --color-progress: #D8B4FE;
+  --color-progress-bg: #322047;
   --color-info: #A9C7F5;
   --color-info-bg: #213652;
   --color-neutral-bg: #283346;
@@ -53,6 +55,8 @@
   --color-danger: #FDA4AF;
   --color-danger-bg: #3D202A;
   --color-on-danger: #15263F;
+  --color-progress: #D8B4FE;
+  --color-progress-bg: #322047;
   --color-info: #A9C7F5;
   --color-info-bg: #213652;
   --color-neutral-bg: #283346;

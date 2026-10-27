@@ -1,5 +1,7 @@
 /* Generated from docs/design/tokens.json; update together. */
 :root {
+  --color-progress: #6D28D9;
+  --color-progress-bg: #F5F3FF;
   --color-on-danger: #FFFFFF;
   --color-on-brand: #15263F;
   --color-brand-yellow: #F2C75C;

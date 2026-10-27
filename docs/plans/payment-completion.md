@@ -69,3 +69,26 @@ R04·R13·R18. 사용자 확정: 총괄관리자는 승인 대기, 총무는 승
 변경: apps/web/src/features/dashboard/payment-tasks.tsx, apps/web/src/styles/workspace.css, apps/web/tests/expenses.spec.ts. API 계약·DB 변경 없음. 요청 검토 링크는 기존 상세로 연결한다. 승인 카드는 기본 파란색, 송금 카드는 기존 녹색 hover를 사용한다. 인수 기준: 총괄관리자 승인 영역/송금 영역 숨김, 총무 두 영역, 승인 직후 승인 목록에서 제거되어 송금 영역으로 이동, 송금 완료 후 제거.
 
 검증 결과: npm --prefix apps/web run build, npm --prefix apps/web run lint 통과. apps/api/.venv-pg/Scripts/python.exe scripts/test_service.py expenses.spec.ts -g 'member submits' 최종 1 passed(22.7초). 최초 실행에서 상세 바로가기 포커스 실패, 두 번째에서 selected 상태만 참조하여 승인 요청 미전송을 발견했다. expenses-view.tsx를 실제 detail 기준으로 포커스/결재 처리하고 성공 시 목록으로 복귀하도록 수정 후 재검증했다. 사용 중인 총무 탭에서도 승인 대기 1건(125,000원)과 송금 대기 1건(80,000원)이 별도 영역으로 표시됨을 확인했다. 실제 로컬 요청 데이터는 변경하지 않았다. 전체 회귀·실기 모바일·다크모드의 이번 영역 변경은 미검증이다.
+
+
+## 2026-10-26 WB-18 출금 요청 현재 상태와 카드 높이
+
+- 요구사항: R04·R13·R18·R19 및 사용자 피드백. 승인 후 미송금은 송금 대기와 같은 현재 상태다.
+- 변경 파일: `apps/web/src/features/expenses/expenses-view.tsx`, `apps/web/src/styles/workspace.css`, `apps/web/tests/expenses.spec.ts`, `WORKBOARD.md`, 본 문서.
+- 목록과 상세의 현재 상태 및 필터를 승인 대기 / 송금 대기 / 송금 완료 / 반려로 통합했다. 승인 완료 별도 필터·중복 배지를 제거했다.
+- 승인·송금의 원본 기록/API 계약은 보존하며 승인 이력은 과거 사건인 ‘승인’으로 표시한다.
+- 카드 격자 행 높이를 통일하고 하단 버튼을 같은 위치에 배치한다. 긴 목적은 두 줄 요약으로 유지한다.
+- 브라우저 회귀는 네 상태·긴 제목의 합성 목록을 사용해 1440/390/320px 높이 차이 1px 미만과 가로 넘침 없음, 상태별 필터를 확인한다. 실제 격리 DB의 승인→송금 완료 및 반려 이력 흐름도 실행한다.
+- 검증 진행: typecheck, lint, build, `python scripts/validate_foundation.py`, `git diff --check` 통과. 브라우저 결과는 아래 기록.
+- 실행 환경: 시스템 Python에는 psycopg가 없어 프로젝트 `.venv-pg`로 재실행. 기본 테스트 포트 3001은 다른 프로젝트가 사용하여 테스트 러너를 메모리에서 3101/8101로 치환해 실행했다. 다른 프로젝트는 종료하지 않았다.
+- 미검증: 실제 모바일 기기·다크모드 시각 검토. 사용자 수용 확인 대기.
+
+- 최종 결과: `.venv-pg/Scripts/python.exe`로 `scripts/test_service.py expenses.spec.ts expense-rejection.spec.ts` 실행(포트 3101/8101 치환), 3 passed (1.1m). 새 빌드로 로컬 서비스 재시작 후 `/login` HTTP 200 확인.
+
+### WB-18 상태 색상 후속 수정 (R18·R19)
+
+- `expenses-view.tsx`의 공통 statusTone에서 송금 대기를 info(파랑)로 변경. 승인 대기 warning(노랑), 송금 완료 success(초록), 반려 danger(빨강). 목록과 상세에 동일 적용하고 기존 라이트/다크 토큰을 사용한다.
+- `npm --prefix apps/web run build`(타입 검사 포함), `npm --prefix apps/web run lint`, `python scripts/validate_foundation.py` 통과. 단순 색상 매핑 변경이므로 테스트 추가·브라우저 회귀 재실행은 생략. 실제 화면 시각 확인은 미실행.
+
+### 출금 요청 송금 대기 테두리 통일 (2026-10-26)
+WB-18 / R18·R19. `apps/web/src/styles/workspace.css`의 송금 대기 카드 전용 hover 녹색 border/inset shadow 규칙을 제거하여 다른 출금 요청 카드와 같은 기본 테두리를 적용. 상태 배지와 업무 동작 유지. `npm --prefix apps/web run build`(타입 포함), `python scripts/validate_foundation.py`, `git diff --check` 통과. 로컬 production-build 재시작. 단순 스타일 삭제이므로 신규 테스트/전체 API 회귀는 추가하지 않음. 브라우저 시각 검증은 미실행, 사용자 확인 대기.

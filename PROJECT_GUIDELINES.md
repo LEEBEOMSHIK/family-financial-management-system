@@ -2,7 +2,7 @@
 
 상태: 초안 · 기준일: 2026-10-23 · 소유자: 프로젝트 책임자(사람, 지정 필요)
 
-구현 현황: Next.js/FastAPI 로컬 서비스가 실행 가능하다. PostgreSQL·개별 계정·관리자 초대·서버 권한 관리를 제공한다. 금융 조회는 합성 자료다. 최신 범위는 [DB·계정 운영 안내](docs/engineering/postgres-local.md)와 ADR-0008을 따른다. 기술 채택 범위는 [ADR-0007](docs/adr/0007-local-service-foundation.md), 남은 작업은 [인수인계](docs/engineering/service-foundation-handoff.md)를 따른다.
+구현 현황: Next.js/FastAPI 로컬 서비스가 실행 가능하다. PostgreSQL·개별 계정·관리자 초대·서버 권한 관리를 제공한다. 카카오뱅크 원본 등록 시 입출금 내역과 대시보드 잔액·입출금 위젯에 동기화 자료를 표시하며 문서별 기간·결과를 보관한다. 동기화 전에는 합성 예시임을 표시한다. 상세 범위는 WORKBOARD의 WB-07을 따른다. 최신 범위는 [DB·계정 운영 안내](docs/engineering/postgres-local.md)와 ADR-0008을 따른다. 기술 채택 범위는 [ADR-0007](docs/adr/0007-local-service-foundation.md), 남은 작업은 [인수인계](docs/engineering/service-foundation-handoff.md)를 따른다.
 
 ## 목적과 성공 조건
 

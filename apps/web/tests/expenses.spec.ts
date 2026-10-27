@@ -58,7 +58,7 @@ test('member submits and treasurer approves, then member sees recorded decision'
   try {
     await loginAs(treasurer, 'treasurer');
     await expect(treasurer).toHaveURL(/dashboard/);
-    await expect(treasurer.getByRole('button', { name: '대시보드 편집', exact: true })).toBeVisible({ timeout: 15_000 });
+    await expect(treasurer.getByRole('heading', { name: '내 할 일', exact: true })).toBeVisible({ timeout: 15_000 });
     const approvalTasks = treasurer.getByRole('region', { name: '승인 대기', exact: true });
     await expect(approvalTasks.getByRole('link', { name: /합성 가족 행사 준비/ })).toBeVisible();
     await expect(treasurer.getByRole('region', { name: '송금 대기', exact: true })).toBeVisible();
@@ -76,6 +76,39 @@ test('member submits and treasurer approves, then member sees recorded decision'
     await treasurer.getByLabel('처리 사유').fill('사용 목적과 금액 확인');
     await treasurer.getByRole('button', { name: '처리 확정' }).click();
     await expect(treasurer.getByRole('status').filter({ hasText: '승인을 기록했습니다' })).toBeVisible();
+    // Exercise the same list with every current state and different content lengths.
+    const expenseRoute = '**/api/v1/families/*/expenses';
+    await treasurer.route(expenseRoute, async route => {
+      const response = await route.fetch();
+      const data = await response.json();
+      const approved = data.items.find((item: { purpose: string }) => item.purpose === '합성 가족 행사 준비');
+      data.items = [
+        approved,
+        { ...approved, id: 'synthetic-submitted', status: 'submitted', purpose: '짧은 요청' },
+        { ...approved, id: 'synthetic-rejected', status: 'rejected', purpose: '길이가 긴 합성 요청 '.repeat(20) },
+        { ...approved, id: 'synthetic-paid', payment: { id: 'synthetic-payment' }, purpose: '송금한 요청' },
+      ];
+      await route.fulfill({ response, json: data });
+    });
+    await treasurer.goto('/expenses');
+    const cards = treasurer.getByRole('region', { name: '출금 요청 목록' }).getByRole('article');
+    await expect(cards).toHaveCount(4);
+    await expect(cards.locator('.fl-badge')).toHaveText(['송금 대기', '승인 대기', '반려', '송금 완료']);
+    for (const width of [1440, 390, 320]) {
+      await treasurer.setViewportSize({ width, height: 900 });
+      const heights = await cards.evaluateAll(elements => elements.map(element => element.getBoundingClientRect().height));
+      expect(Math.max(...heights) - Math.min(...heights)).toBeLessThan(1);
+      expect(await treasurer.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    }
+    for (const status of ['승인 대기', '송금 대기', '송금 완료', '반려']) {
+      await treasurer.getByRole('combobox', { name: '처리 상태' }).click();
+      await expect(treasurer.getByRole('option', { name: '승인 완료', exact: true })).toHaveCount(0);
+      await treasurer.getByRole('option', { name: status, exact: true }).click();
+      await expect(cards).toHaveCount(1);
+      await expect(cards.locator('.fl-badge')).toHaveText([status]);
+    }
+    await treasurer.unroute(expenseRoute);
+    await treasurer.setViewportSize({ width: 1440, height: 1000 });
     await treasurer.goto('/dashboard');
     const tasks = treasurer.locator('.dashboard-workspace');
     await expect(tasks.getByRole('region', { name: '승인 대기', exact: true })).not.toContainText('합성 가족 행사 준비');

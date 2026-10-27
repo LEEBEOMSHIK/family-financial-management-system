@@ -149,7 +149,13 @@ class LocalAuth:
                 "SELECT display_name FROM account WHERE id=%s", (user_id,)
             ).fetchone()["display_name"]
 
-    def invite(self, actor: str, family_id: str, now: datetime) -> tuple[str, datetime]:
+    def invite(
+        self,
+        actor: str,
+        family_id: str,
+        now: datetime,
+        participant_id: str | None = None,
+    ) -> tuple[str, datetime]:
         token, expires = secrets.token_urlsafe(32), now + timedelta(days=7)
         with self.connect() as conn:
             conn.execute("SELECT id FROM family WHERE id=%s FOR UPDATE", (family_id,))
@@ -157,10 +163,30 @@ class LocalAuth:
                 raise AuthError(
                     403, "FORBIDDEN", "현재 총괄관리자만 초대할 수 있습니다."
                 )
+            if participant_id is not None:
+                person = conn.execute(
+                    "SELECT id FROM family_participant WHERE family_id=%s AND id=%s",
+                    (family_id, participant_id),
+                ).fetchone()
+                if not person:
+                    raise AuthError(404, "NOT_FOUND", "구성원을 찾을 수 없습니다.")
+                if conn.execute(
+                    "SELECT 1 FROM account WHERE id=%s", (participant_id,)
+                ).fetchone():
+                    raise AuthError(
+                        409,
+                        "ACCOUNT_ALREADY_LINKED",
+                        "이미 계정이 연결된 구성원입니다.",
+                    )
             conn.execute(
                 "INSERT INTO invitation(token_hash,family_id,actor_id,expires_at,created_at) VALUES (%s,%s,%s,%s,%s)",
                 (digest(token), family_id, actor, expires, now),
             )
+            if participant_id is not None:
+                conn.execute(
+                    "INSERT INTO participant_invitation(token_hash,family_id,participant_id) VALUES (%s,%s,%s)",
+                    (digest(token), family_id, participant_id),
+                )
         return token, expires
 
     @staticmethod
@@ -203,6 +229,12 @@ class LocalAuth:
                         "REGISTRATION_REJECTED",
                         "초대 코드와 가입 정보를 확인해 주세요.",
                     )
+                target = conn.execute(
+                    "SELECT participant_id FROM participant_invitation WHERE token_hash=%s AND family_id=%s",
+                    (digest(body.invite_token), FAMILY),
+                ).fetchone()
+                if target:
+                    user_id = target["participant_id"]
                 conn.execute(
                     "INSERT INTO account(id,username,display_name,password_hash) VALUES (%s,%s,%s,%s)",
                     (user_id, body.username, body.display_name.strip(), encoded),

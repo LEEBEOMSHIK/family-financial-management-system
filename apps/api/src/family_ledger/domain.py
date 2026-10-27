@@ -103,6 +103,7 @@ class ReadService:
             for m in self.repository.memberships()
         ):
             return []
+        roles = self.repository.roles()
         capabilities = ["view_dashboard", "view_transactions"]
         if any(
             r.user_id == user_id
@@ -110,7 +111,7 @@ class ReadService:
             and r.role in ("treasurer", "super_admin")
             and r.valid_from <= now
             and (r.valid_to is None or now < r.valid_to)
-            for r in self.repository.roles()
+            for r in roles
         ):
             capabilities.append("manage")
         if any(
@@ -119,7 +120,7 @@ class ReadService:
             and r.role == "super_admin"
             and r.valid_from <= now
             and (r.valid_to is None or now < r.valid_to)
-            for r in self.repository.roles()
+            for r in roles
         ):
             capabilities.append("manage_roles")
         return capabilities

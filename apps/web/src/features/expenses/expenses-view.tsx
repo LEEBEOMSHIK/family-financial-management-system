@@ -17,7 +17,14 @@ import type { components } from '../../generated/api';
 
 type Item = components['schemas']['ExpenseItem'];
 type Listing = components['schemas']['ExpenseList'];
-const labels = { submitted: '승인 대기', approved: '승인 완료', rejected: '반려' };
+const labels = { submitted: '승인 대기', payment_pending: '송금 대기', paid: '송금 완료', rejected: '반려' };
+function currentStatus(item: Item): keyof typeof labels {
+  return item.status === 'approved' ? (item.payment ? 'paid' : 'payment_pending') : item.status;
+}
+function statusTone(item: Item) {
+  const status = currentStatus(item);
+  return status === 'paid' ? 'success' : status === 'rejected' ? 'danger' : status === 'payment_pending' ? 'info' : 'warning';
+}
 
 function PosthocEvidence({ item, path, onSaved }: { item: Item; path: string; onSaved: () => void }) {
   const session = useSession(); const [open, setOpen] = useState(false); const [ids, setIds] = useState<string[]>([]);
@@ -101,7 +108,7 @@ function ExpensesContent() {
     } catch (failure) { setError(failure instanceof Error ? `${failure.message} 현재 처리 상태를 다시 확인해 주세요.` : '처리 결과를 확인하지 못했습니다.'); resource.retry(); setSelected(null); }
     finally { setBusy(false); }
   }
-  const items = resource.data?.items.filter(item => filter === 'all' || (filter === 'paid' ? Boolean(item.payment) : filter === 'payment_pending' ? item.status === 'approved' && !item.payment : item.status === filter)) ?? [];
+  const items = resource.data?.items.filter(item => filter === 'all' || currentStatus(item) === filter) ?? [];
   function returnToList() { setSelected(null); setError(''); if (requestedId) router.replace('/expenses', { scroll: false }); }
   if (requestedId && !selected && !detail) {
     return <><BackButton onClick={returnToList}/>{resource.loading ? <Loading/> : resource.error ? <Failed message={resource.error} retry={resource.retry}/> : <p className="inline-error" role="alert">요청을 찾을 수 없거나 조회 권한이 없습니다.</p>}</>;
@@ -116,7 +123,7 @@ function ExpensesContent() {
       <div className="page-title"><div><p className="eyebrow">REQUEST DETAILS</p><h1>출금 요청 상세</h1><p className="muted">요청 내용과 증빙을 확인하고 처리 이력을 살펴보세요.</p></div></div>
       {error && <p role="alert" className="inline-error">{error}</p>}
       <div className="expense-detail-grid"><section className="fl-card expense-information">
-        <header className="expense-summary"><div><span className="expense-field-label">요청 금액</span><div className="expense-summary-amount"><Money amountKrw={detail.amount_krw}/></div></div><span className="fl-badge" data-tone={detail.status === 'approved' ? 'success' : detail.status === 'rejected' ? 'danger' : 'warning'}>{labels[detail.status]}</span></header>
+        <header className="expense-summary"><div><span className="expense-field-label">요청 금액</span><div className="expense-summary-amount"><Money amountKrw={detail.amount_krw}/></div></div><span className="fl-badge" data-tone={statusTone(detail)}>{labels[currentStatus(detail)]}</span></header>
         <section className="expense-info-section" aria-labelledby="expense-request-content"><h2 id="expense-request-content">요청 내용</h2><div className="expense-purpose-box"><span className="expense-field-label">사용 목적 · 요청사항</span><p className="expense-purpose">{detail.purpose}</p></div>
         <dl className="expense-facts"><div><dt>요청자</dt><dd>{detail.requester_name}</dd></div><div><dt>요청 유형</dt><dd>{detail.request_type === 'advance' ? '사용 전 선지급' : detail.request_type === 'reimbursement' ? '사용 후 정산' : '기존 요청'}</dd></div><div><dt>희망 지급일</dt><dd><time dateTime={detail.requested_on}>{detail.requested_on}</time></dd></div><div><dt>요청일</dt><dd>{new Date(detail.created_at).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' })}</dd></div></dl></section>
         <section className="expense-info-section" aria-labelledby="expense-payment-account"><h2 id="expense-payment-account">지급 계좌</h2>{detail.bank_account ? <><dl className="expense-facts expense-bank-facts"><div><dt>은행</dt><dd>{detail.bank_account.bank_name}</dd></div><div><dt>예금주</dt><dd>{detail.bank_account.account_holder}</dd></div><div className="expense-fact-wide"><dt>계좌번호</dt><dd>{detail.bank_account.masked_number}</dd></div></dl><AccountReveal key={detail.id} path={`${path}/${detail.id}/payee-account`}/></> : <p className="muted">등록된 지급 계좌가 없습니다.</p>}</section>
@@ -126,7 +133,7 @@ function ExpensesContent() {
         </section>
       </section><div className="expense-detail-side"><section className="fl-card"><h2>처리 이력</h2>
         <div className="expense-history"><strong>요청 제출 · {detail.requester_name}</strong><p className="small muted">{new Date(detail.created_at).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</p></div>
-        {detail.comment ? <div className="expense-decision"><strong>{labels[detail.status]} · {detail.actor_name}</strong><p>{detail.comment}</p><span className="small muted">{detail.decided_at && new Date(detail.decided_at).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</span></div> : <p className="muted">아직 승인·반려 처리 내역이 없습니다.</p>}
+        {detail.comment ? <div className="expense-decision"><strong>{detail.status === 'approved' ? '승인' : '반려'} · {detail.actor_name}</strong><p>{detail.comment}</p><span className="small muted">{detail.decided_at && new Date(detail.decided_at).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}</span></div> : <p className="muted">아직 승인·반려 처리 내역이 없습니다.</p>}
       </section><PaymentPanel key={detail.id} item={detail} path={path} refresh={resource.retry}/>{manager && detail.status === 'submitted' && <section className="fl-card"><h2>요청 처리</h2>
         {own ? <p className="muted">{detail.requires_super_admin ? '총무 본인의 요청은 다른 총괄관리자가 처리해야 합니다.' : '본인의 요청은 다른 총무 또는 총괄관리자가 처리해야 합니다.'}</p> : needsAdmin ? <p className="muted">총무가 제출한 요청은 총괄관리자만 승인·반려할 수 있습니다.</p> : incomplete ? <p className="muted">요청 유형과 지급 계좌가 없어 처리할 수 없습니다. 요청자가 새 요청을 제출해야 합니다.</p> : !resource.data?.approval_configured ? <div className="development-notice"><strong>승인 규칙 설정 대기</strong><p>상세 검토는 가능합니다. 가족의 승인 규칙이 설정되면 승인·반려를 처리할 수 있습니다.</p></div> : null}
         {canDecide && <form className="account-form" onSubmit={decide}><Select label="처리 결과" value={decision} onChange={setDecision} options={[{value:'approved',label:'승인'},{value:'rejected',label:'반려'}]}/><label className="fl-field">처리 사유<textarea className="fl-input" value={comment} onChange={event => setComment(event.target.value)} required maxLength={500} rows={3} disabled={busy}/></label><p className="small muted">처리자·시각·사유가 기록됩니다. 승인 후 실제 송금은 총무가 은행 앱에서 진행합니다.</p><Button type="submit" pending={busy} disabled={!comment.trim()}>처리 확정</Button></form>}
@@ -148,11 +155,10 @@ function ExpensesContent() {
     </form></section>}
     {resource.loading ? <Loading/> : resource.error ? <Failed message={resource.error} retry={resource.retry}/> : resource.data && <>
       {manager && !resource.data?.approval_configured && <div className="development-notice"><strong>승인 규칙 확인이 필요합니다</strong><p>요청은 접수되지만 승인·반려 처리는 승인 규칙 확정 후 활성화됩니다.</p></div>}
-      <div className="filters"><Select label="처리 상태" value={filter} onChange={setFilter} options={[{value:'all',label:'전체 요청'},...Object.entries(labels).map(([value,label]) => ({value,label})),{value:'payment_pending',label:'송금 대기'},{value:'paid',label:'송금 완료'}]}/><span className="toolbar-note">{manager ? '가족 전체 요청' : '내가 요청한 내역'} · {items.length}건</span><Button variant="secondary" disabled={busy} onClick={resource.retry}>목록 새로고침</Button></div>
-      <section className="expense-list" aria-label="출금 요청 목록">{items.length === 0 ? <div className="fl-card empty-state">{filter === 'all' ? '아직 출금 요청이 없습니다. 새 요청을 작성해 보세요.' : '해당 상태의 요청이 없습니다.'}</div> : items.map(item => <article className="fl-card expense-item" data-payment-pending={item.status === 'approved' && !item.payment ? 'true' : undefined} key={item.id}>
-        <div className="section-heading"><span className="fl-badge" data-tone={item.status === 'approved' ? 'success' : item.status === 'rejected' ? 'danger' : 'warning'}>{labels[item.status]}</span><span className="small muted">{new Date(item.created_at).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' })}</span></div>
+      <div className="filters"><Select label="처리 상태" value={filter} onChange={setFilter} options={[{value:'all',label:'전체 요청'},...Object.entries(labels).map(([value,label]) => ({value,label}))]}/><span className="toolbar-note">{manager ? '가족 전체 요청' : '내가 요청한 내역'} · {items.length}건</span><Button variant="secondary" disabled={busy} onClick={resource.retry}>목록 새로고침</Button></div>
+      <section data-report-id="expenses.list" data-report-label="출금 요청 목록" data-report-source="apps/web/src/features/expenses/expenses-view.tsx" className="expense-list" aria-label="출금 요청 목록">{items.length === 0 ? <div className="fl-card empty-state">{filter === 'all' ? '아직 출금 요청이 없습니다. 새 요청을 작성해 보세요.' : '해당 상태의 요청이 없습니다.'}</div> : items.map(item => <article data-report-item={item.id} className="fl-card expense-item" data-payment-pending={item.status === 'approved' && !item.payment ? 'true' : undefined} key={item.id}>
+        <div className="section-heading"><span className="fl-badge" data-tone={statusTone(item)}>{labels[currentStatus(item)]}</span><span className="small muted">{new Date(item.created_at).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' })}</span></div>
         <h2 className="expense-card-purpose">{item.purpose}</h2><div className="expense-card-amount"><Money amountKrw={item.amount_krw}/></div>
-        {item.status === 'approved' && <span className="fl-badge" data-tone={item.payment ? 'success' : 'warning'}>{item.payment ? '송금 완료' : '송금 대기'}</span>}
         <p className="expense-card-meta"><span>{item.requester_name}</span><span>{item.request_type === 'advance' ? '선지급' : item.request_type === 'reimbursement' ? '정산' : '기존 요청'}</span><span>증빙 {item.evidence.length}개</span></p>
         <div className="expense-card-footer"><span className="small muted">지급 희망 {item.requested_on}</span><Button variant="secondary" disabled={busy} onClick={() => { setSelected(item); setDecision('approved'); setComment(''); setError(''); }}>상세 보기<span className="sr-only">: {item.purpose}</span></Button></div>
       </article>)}</section>

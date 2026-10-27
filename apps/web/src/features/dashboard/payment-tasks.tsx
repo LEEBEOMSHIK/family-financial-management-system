@@ -26,7 +26,7 @@ function TaskGroup({ kind, items, configured = true }: { kind: 'approval' | 'pay
   </section>;
 }
 
-export function PaymentTasks({ kind }: { kind: 'approval' | 'payment' }) {
+export function PaymentTasks() {
   const session = useSession();
   const resource = useResource<components['schemas']['ExpenseList']>(session ? `/families/${session.family_id}/expenses` : null);
   const { retry } = resource;
@@ -43,9 +43,8 @@ export function PaymentTasks({ kind }: { kind: 'approval' | 'payment' }) {
   const approvals = resource.data?.items.filter(item => item.status === 'submitted'
     && item.requester_id !== session.user.id && (!item.requires_super_admin || superAdmin))
     .sort((a, b) => a.requested_on.localeCompare(b.requested_on) || a.created_at.localeCompare(b.created_at)) ?? [];
-  const title = kind === 'approval' ? '승인 대기' : '송금 대기';
   return <section className="fl-card payment-tasks task-widget">
-    <div className="payment-task-heading"><h2>{title}</h2><Button variant="ghost" className="payment-task-refresh" onClick={retry} aria-label={`${title} 새로고침`}>새로고침</Button></div>
-    {resource.loading ? <Loading/> : resource.error ? <Failed message={resource.error} retry={retry}/> : <TaskGroup kind={kind} items={kind === 'approval' ? approvals : pending} configured={resource.data?.approval_configured}/>}
+    <div className="payment-task-heading"><h2>내 할 일</h2><Button variant="ghost" className="payment-task-refresh" onClick={retry} aria-label="내 할 일 새로고침">새로고침</Button></div>
+    {resource.loading ? <Loading/> : resource.error ? <Failed message={resource.error} retry={retry}/> : <div className="dashboard-task-groups"><TaskGroup kind="approval" items={approvals} configured={resource.data?.approval_configured}/>{(!superAdmin || pending.length > 0) && <TaskGroup kind="payment" items={pending}/>}</div>}
   </section>;
 }

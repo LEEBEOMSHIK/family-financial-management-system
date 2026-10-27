@@ -12,7 +12,7 @@ from .expenses.repository import ExpenseRepository
 from .models import Model
 
 WidgetId = Literal[
-    "approval", "payment", "balance", "summary", "flow", "categories", "recent"
+    "tasks", "dues", "support", "approval", "payment", "balance", "summary", "flow", "categories", "recent"
 ]
 COMMON = ["balance", "summary", "flow", "categories", "recent"]
 
@@ -21,12 +21,13 @@ class Widget(Model):
     id: WidgetId
     width: Literal["half", "full"] = "full"
     height: Literal["compact", "regular", "tall"] = "regular"
+    height_px: int | None = Field(default=None, ge=120, le=32768, strict=True)
     visible: bool = True
 
 
 class Layout(Model):
-    desktop: list[Widget] = Field(max_length=7)
-    mobile: list[Widget] = Field(max_length=7)
+    desktop: list[Widget] = Field(max_length=8)
+    mobile: list[Widget] = Field(max_length=8)
 
     @model_validator(mode="after")
     def unique(self):
@@ -59,6 +60,10 @@ def defaults(allowed: list[str]) -> list[Widget]:
 
 
 def normalize(items: list[Widget], allowed: list[str]) -> list[Widget]:
+    legacy = [item for item in items if item.id in ("approval", "payment")]
+    if legacy and not any(item.id == "tasks" for item in items):
+        merged = legacy[0].model_copy(update={"id": "tasks", "visible": any(item.visible for item in legacy)})
+        items = [merged if item is legacy[0] else item for item in items]
     kept = [item for item in items if item.id in allowed]
     return kept + [
         item for item in defaults(allowed) if item.id not in {x.id for x in kept}
@@ -74,8 +79,8 @@ class LayoutRepository:
         manager = ExpenseRepository.authority(conn, family, user, now)
         treasury = ExpenseRepository.has_role(conn, family, user, "treasurer", now)
         return (
-            (["approval"] if manager else [])
-            + (["payment"] if treasury else [])
+            (["tasks", "dues"] if manager or treasury else [])
+            + (["support"] if manager else [])
             + COMMON
         )
 
@@ -138,7 +143,7 @@ class LayoutRepository:
                 raise AuthError(
                     409,
                     "LAYOUT_CONFLICT",
-                    "다른 화면에서 배치가 변경되었습니다. 편집을 취소하고 최신 배치를 불러와 주세요.",
+                    "다른 화면에서 배치가 변경되었습니다. 최신 배치를 불러온 뒤 다시 조정해 주세요.",
                 )
             return LayoutResponse(
                 **layout, revision=row["revision"], allowed_widgets=allowed

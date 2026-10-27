@@ -2,7 +2,7 @@
 
 설치·초기 계정·가족 초대·백업·복구는 [DB·계정 운영 안내](postgres-local.md)를 따른다. Windows Node 24.18.0, Python 3.14.9 x64, PostgreSQL 18.6을 사용한다.
 
-`node scripts/dev.mjs --production-build`로 실행한다. 웹은 http://127.0.0.1:3000, API는 8000이다. AUTH_PROVIDER=local_password와 PostgreSQL을 사용하며 개발 설정에 따라 별도 테스트 계정 버튼도 제공한다. 금융 조회는 합성 자료다. 기본 계좌와 증빙을 위한 비공개 키 초기화·복구는 [계좌·증빙 운영 안내](accounts-evidence.md)를 따른다.
+`node scripts/dev.mjs --production-build`로 실행한다. 웹은 http://127.0.0.1:3000, API는 8000이다. AUTH_PROVIDER=local_password와 PostgreSQL을 사용하며 개발 설정에 따라 별도 테스트 계정 버튼도 제공한다. 카카오뱅크 원본 등록 시 입출금 내역과 대시보드 잔액·입출금 위젯에 동기화 자료를 표시하며 문서별 기간·결과를 보관한다. 동기화 전에는 합성 예시임을 표시한다. 상세 범위는 WORKBOARD의 WB-07을 따른다. 기본 계좌와 증빙을 위한 비공개 키 초기화·복구는 [계좌·증빙 운영 안내](accounts-evidence.md)를 따른다.
 
 ## 검증 명령
 

@@ -4,10 +4,18 @@ import { useRouter } from 'next/navigation';
 import { api, ApiError } from './api';
 
 type State<T> = { path: string; data?: T; error?: string; loading: boolean };
-export function useResource<T>(path: string | null) {
+export function useResource<T>(path: string | null, revalidateOnFocus = false) {
   const router = useRouter();
   const [state, setState] = useState<State<T>>({ path: '', loading: true });
   const [revision, setRevision] = useState(0);
+  useEffect(() => {
+    if (!revalidateOnFocus) return;
+    const refresh = () => { if (document.visibilityState === 'visible') setRevision(value => value + 1); };
+    window.addEventListener('focus', refresh);
+    window.addEventListener('family-ledger:refresh', refresh);
+    document.addEventListener('visibilitychange', refresh);
+    return () => { window.removeEventListener('focus', refresh); window.removeEventListener('family-ledger:refresh', refresh); document.removeEventListener('visibilitychange', refresh); };
+  }, [revalidateOnFocus]);
   useEffect(() => {
     if (!path) return;
     const controller = new AbortController();
@@ -22,5 +30,5 @@ export function useResource<T>(path: string | null) {
     return () => controller.abort();
   }, [path, revision, router]);
   const current = state.path === path ? state : { loading: true, data: undefined, error: undefined };
-  return { ...current, retry: () => { setState({ path: '', loading: true }); setRevision(n => n + 1); } };
+  return { ...current, refresh: () => { if (revalidateOnFocus) window.dispatchEvent(new Event('family-ledger:refresh')); else setRevision(n => n + 1); }, retry: () => { setState({ path: '', loading: true }); setRevision(n => n + 1); } };
 }

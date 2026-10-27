@@ -108,6 +108,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/families/{family_id}/dashboard/flow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Flow */
+        get: operations["flow_api_v1_families__family_id__dashboard_flow_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/families/{family_id}/dashboard": {
         parameters: {
             query?: never;
@@ -171,6 +188,264 @@ export interface paths {
         put?: never;
         /** Change Roles */
         post: operations["change_roles_api_v1_families__family_id__roles_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/issues": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listing */
+        get: operations["listing_api_v1_families__family_id__issues_get"];
+        put?: never;
+        /** Create */
+        post: operations["create_api_v1_families__family_id__issues_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/issues/{issue_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Detail */
+        get: operations["detail_api_v1_families__family_id__issues__issue_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/issues/{issue_id}/image": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Image */
+        get: operations["image_api_v1_families__family_id__issues__issue_id__image_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/issues/{issue_id}/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Event */
+        post: operations["event_api_v1_families__family_id__issues__issue_id__events_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/dues": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listing */
+        get: operations["listing_api_v1_families__family_id__dues_get"];
+        put?: never;
+        /** Change */
+        post: operations["change_api_v1_families__family_id__dues_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/dues/reconcile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reconcile Deposits */
+        post: operations["reconcile_deposits_api_v1_families__family_id__dues_reconcile_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/participants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create Participant */
+        post: operations["create_participant_api_v1_families__family_id__participants_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/participants/{participant_id}/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Update Participant */
+        post: operations["update_participant_api_v1_families__family_id__participants__participant_id__profile_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/participants/{participant_id}/invite": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Invite Participant */
+        post: operations["invite_participant_api_v1_families__family_id__participants__participant_id__invite_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/documents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listing */
+        get: operations["listing_api_v1_families__family_id__documents_get"];
+        put?: never;
+        /** Upload */
+        post: operations["upload_api_v1_families__family_id__documents_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/documents/evidence": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Evidence */
+        get: operations["evidence_api_v1_families__family_id__documents_evidence_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/documents/evidence/{evidence_id}/download": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Evidence Download */
+        get: operations["evidence_download_api_v1_families__family_id__documents_evidence__evidence_id__download_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/documents/{document_id}/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Synchronize */
+        post: operations["synchronize_api_v1_families__family_id__documents__document_id__sync_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/documents/{document_id}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Versions */
+        get: operations["versions_api_v1_families__family_id__documents__document_id__versions_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/families/{family_id}/documents/{document_id}/download": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Download */
+        get: operations["download_api_v1_families__family_id__documents__document_id__download_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -419,6 +694,54 @@ export interface components {
             /** Default Account Id */
             default_account_id: string | null;
         };
+        /** BankSync */
+        BankSync: {
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "synced" | "needs_review";
+            /** Period Start */
+            period_start?: string | null;
+            /** Period End */
+            period_end?: string | null;
+            /** Requested At */
+            requested_at?: string | null;
+            /** Transaction Start */
+            transaction_start?: string | null;
+            /** Transaction End */
+            transaction_end?: string | null;
+            /** Added */
+            added: number;
+            /** Duplicates */
+            duplicates: number;
+            /** Error */
+            error?: string | null;
+            /**
+             * Completed At
+             * Format: date-time
+             */
+            completed_at: string;
+        };
+        /** Birthday */
+        Birthday: {
+            /** Year */
+            year?: number | null;
+            /**
+             * Calendar
+             * @enum {string}
+             */
+            calendar: "solar" | "lunar";
+            /** Month */
+            month: number;
+            /** Day */
+            day: number;
+            /**
+             * Leap Month
+             * @default false
+             */
+            leap_month: boolean;
+        };
         /** Category */
         Category: {
             /** Label */
@@ -433,9 +756,9 @@ export interface components {
             /**
              * Data Mode
              * @default synthetic
-             * @constant
+             * @enum {string}
              */
-            data_mode: "synthetic";
+            data_mode: "synthetic" | "bank_import";
             /** As Of */
             as_of: string;
             /** Source */
@@ -446,7 +769,15 @@ export interface components {
              */
             period: "month" | "quarter";
             /** Balance Krw */
-            balance_krw: string;
+            balance_krw: string | null;
+            /** Balance As Of */
+            balance_as_of?: string | null;
+            /** Summary Start */
+            summary_start?: string | null;
+            /** Summary End */
+            summary_end?: string | null;
+            /** Coverage */
+            coverage?: string[];
             /** Income Krw */
             income_krw: string;
             /** Expense Krw */
@@ -461,6 +792,249 @@ export interface components {
             categories: components["schemas"]["Category"][];
             /** Recent Transactions */
             recent_transactions: components["schemas"]["Transaction"][];
+        };
+        /** DocumentItem */
+        DocumentItem: {
+            /** Id */
+            id: string;
+            /** Root Id */
+            root_id: string;
+            /** Version */
+            version: number;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "bank" | "family";
+            /** Title */
+            title: string;
+            /** Category */
+            category: string;
+            /** Description */
+            description: string;
+            /** Filename */
+            filename: string;
+            /** Media Type */
+            media_type: string;
+            /** Byte Size */
+            byte_size: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Actor Name */
+            actor_name: string;
+            /**
+             * Processing Status
+             * @enum {string}
+             */
+            processing_status: "stored" | "format_review_required" | "synced";
+            sync?: components["schemas"]["BankSync"] | null;
+            /**
+             * Scan Status
+             * @default not_scanned
+             * @constant
+             */
+            scan_status: "not_scanned";
+        };
+        /** DocumentList */
+        DocumentList: {
+            /** Items */
+            items: components["schemas"]["DocumentItem"][];
+            /** Total */
+            total: number;
+        };
+        /** DuesCommand */
+        DuesCommand: {
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "fee" | "deadline" | "payment" | "reversal" | "reminder";
+            /** Starts On */
+            starts_on?: string | null;
+            /**
+             * Operation Id
+             * Format: uuid
+             */
+            operation_id: string;
+            /** Month */
+            month: string;
+            /** Member Id */
+            member_id?: string | null;
+            /** Amount Krw */
+            amount_krw?: string | null;
+            /** Due Day */
+            due_day?: number | null;
+            /** Transaction Id */
+            transaction_id?: string | null;
+            /** Payment Id */
+            payment_id?: string | null;
+        };
+        /** DuesDeposit */
+        DuesDeposit: {
+            /** Id */
+            id: string;
+            /**
+             * Occurred At
+             * Format: date-time
+             */
+            occurred_at: string;
+            /** Description */
+            description: string;
+            /** Amount Krw */
+            amount_krw: string;
+        };
+        /** DuesEvent */
+        DuesEvent: {
+            /**
+             * Auto Matched
+             * @default false
+             */
+            auto_matched: boolean;
+            /** Transaction Id */
+            transaction_id?: string | null;
+            /**
+             * Superseded
+             * @default false
+             */
+            superseded: boolean;
+            /** Starts On */
+            starts_on?: string | null;
+            /** Id */
+            id: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "fee" | "deadline" | "payment" | "reversal" | "reminder";
+            /** Month */
+            month: string;
+            /** Member Id */
+            member_id: string | null;
+            /** Member Name */
+            member_name: string | null;
+            /** Actor Name */
+            actor_name: string;
+            /** Amount Krw */
+            amount_krw: string | null;
+            /** Due Day */
+            due_day: number | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Reversed
+             * @default false
+             */
+            reversed: boolean;
+        };
+        /** DuesMember */
+        DuesMember: {
+            /** Next Fee Month */
+            next_fee_month?: string | null;
+            /** Next Fee Id */
+            next_fee_id?: string | null;
+            /** Next Fee Start On */
+            next_fee_start_on?: string | null;
+            /** Next Fee Amount Krw */
+            next_fee_amount_krw?: string | null;
+            birthday?: components["schemas"]["Birthday"] | null;
+            /**
+             * Profile Version
+             * @default 0
+             */
+            profile_version: number;
+            /** Has Account */
+            has_account: boolean;
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Amount Krw */
+            amount_krw: string | null;
+            /** Paid Krw */
+            paid_krw: string;
+            /** Remaining Krw */
+            remaining_krw: string | null;
+            /** Excess Krw */
+            excess_krw: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "unconfigured" | "pending" | "partial" | "paid" | "overdue" | "awaiting_data";
+            /** Last Requested At */
+            last_requested_at: string | null;
+        };
+        /** DuesOverview */
+        DuesOverview: {
+            /** Matching Review Count */
+            matching_review_count: number;
+            /** Review Deposits */
+            review_deposits: components["schemas"]["DuesReviewDeposit"][];
+            /** Overdue Count */
+            overdue_count: number | null;
+            /** Overdue Krw */
+            overdue_krw: string | null;
+            /** Month */
+            month: string;
+            /**
+             * Today
+             * Format: date
+             */
+            today: string;
+            /** Due Day */
+            due_day: number | null;
+            /** Due On */
+            due_on: string | null;
+            /** Data Through */
+            data_through: string | null;
+            /** Coverage Complete */
+            coverage_complete: boolean;
+            /** Can Configure */
+            can_configure: boolean;
+            /** Outstanding Count */
+            outstanding_count: number;
+            /** Unconfigured Count */
+            unconfigured_count: number;
+            /** Remaining Krw */
+            remaining_krw: string;
+            /** Members */
+            members: components["schemas"]["DuesMember"][];
+            /** Deposits */
+            deposits: components["schemas"]["DuesDeposit"][];
+            /** Events */
+            events: components["schemas"]["DuesEvent"][];
+        };
+        /** DuesResult */
+        DuesResult: {
+            /** Id */
+            id: string;
+            /** Message */
+            message: string;
+        };
+        /** DuesReviewDeposit */
+        DuesReviewDeposit: {
+            /** Id */
+            id: string;
+            /**
+             * Occurred At
+             * Format: date-time
+             */
+            occurred_at: string;
+            /** Description */
+            description: string;
+            /** Amount Krw */
+            amount_krw: string;
+            /**
+             * Reason
+             * @enum {string}
+             */
+            reason: "reversed" | "name_mismatch" | "ambiguous_name" | "policy_not_configured" | "awaiting_match";
         };
         /** ErrorDetail */
         ErrorDetail: {
@@ -595,6 +1169,50 @@ export interface components {
             /** Approval Configured */
             approval_configured: boolean;
         };
+        /** FlowBucket */
+        FlowBucket: {
+            /** Label */
+            label: string;
+            /** Start On */
+            start_on: string;
+            /** End On */
+            end_on: string;
+            /** Income Krw */
+            income_krw: string | null;
+            /** Expense Krw */
+            expense_krw: string | null;
+            /** Balance Krw */
+            balance_krw: string | null;
+            /** Balance As Of */
+            balance_as_of: string | null;
+            /**
+             * Coverage
+             * @enum {string}
+             */
+            coverage: "none" | "partial" | "complete";
+            /** In Progress */
+            in_progress: boolean;
+        };
+        /** FlowResponse */
+        FlowResponse: {
+            /**
+             * Unit
+             * @enum {string}
+             */
+            unit: "week" | "month";
+            /** Today */
+            today: string;
+            /**
+             * Data Mode
+             * @default bank_import
+             * @enum {string}
+             */
+            data_mode: "bank_import" | "synthetic";
+            /** Data Through */
+            data_through: string | null;
+            /** Items */
+            items: components["schemas"]["FlowBucket"][];
+        };
         /** InvitationResponse */
         InvitationResponse: {
             /** Invite Token */
@@ -605,6 +1223,109 @@ export interface components {
              */
             expires_at: string;
         };
+        /** IssueCreate */
+        IssueCreate: {
+            /**
+             * Operation Id
+             * Format: uuid
+             */
+            operation_id: string;
+            /** Title */
+            title: string;
+            /** Description */
+            description: string;
+            /** Path */
+            path: string;
+            /** Screen Name */
+            screen_name: string;
+            /** Viewport Width */
+            viewport_width: number;
+            /** Viewport Height */
+            viewport_height: number;
+            /** Pins */
+            pins?: components["schemas"]["Pin"][];
+            /** Image Base64 */
+            image_base64?: string | null;
+        };
+        /** IssueEvent */
+        IssueEvent: {
+            /** Version */
+            version: number;
+            /** Actor Name */
+            actor_name: string;
+            /** Comment */
+            comment: string;
+            /** Status */
+            status: ("received" | "investigating" | "needs_info" | "resolved") | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** IssueEventCreate */
+        IssueEventCreate: {
+            /**
+             * Operation Id
+             * Format: uuid
+             */
+            operation_id: string;
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Comment
+             * @default
+             */
+            comment: string;
+            /** Status */
+            status?: ("received" | "investigating" | "needs_info" | "resolved") | null;
+        };
+        /** IssueItem */
+        IssueItem: {
+            /** Id */
+            id: string;
+            /** Title */
+            title: string;
+            /** Description */
+            description: string;
+            /** Path */
+            path: string;
+            /** Screen Name */
+            screen_name: string;
+            /** Viewport Width */
+            viewport_width: number;
+            /** Viewport Height */
+            viewport_height: number;
+            /** Pins */
+            pins: components["schemas"]["Pin"][];
+            /** Has Image */
+            has_image: boolean;
+            /** Author Name */
+            author_name: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "received" | "investigating" | "needs_info" | "resolved";
+            /** Version */
+            version: number;
+            /** Events */
+            events?: components["schemas"]["IssueEvent"][];
+        };
+        /** IssueList */
+        IssueList: {
+            /** Items */
+            items: components["schemas"]["IssueItem"][];
+            /** Total */
+            total: number;
+            /** Can Manage */
+            can_manage: boolean;
+        };
         /** LayoutResponse */
         LayoutResponse: {
             /** Desktop */
@@ -614,7 +1335,7 @@ export interface components {
             /** Revision */
             revision: number;
             /** Allowed Widgets */
-            allowed_widgets: ("approval" | "payment" | "balance" | "summary" | "flow" | "categories" | "recent")[];
+            allowed_widgets: ("tasks" | "dues" | "support" | "approval" | "payment" | "balance" | "summary" | "flow" | "categories" | "recent")[];
         };
         /** LayoutWrite */
         LayoutWrite: {
@@ -624,6 +1345,35 @@ export interface components {
             mobile: components["schemas"]["Widget"][];
             /** Revision */
             revision: number;
+        };
+        /** ManagedEvidence */
+        ManagedEvidence: {
+            /** Id */
+            id: string;
+            /** Request Id */
+            request_id: string;
+            /** Purpose */
+            purpose: string;
+            /** Requester Name */
+            requester_name: string;
+            /** Media Type */
+            media_type: string;
+            /** Byte Size */
+            byte_size: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Approved Evidence */
+            approved_evidence: boolean;
+        };
+        /** ManagedEvidenceList */
+        ManagedEvidenceList: {
+            /** Items */
+            items: components["schemas"]["ManagedEvidence"][];
+            /** Total */
+            total: number;
         };
         /** ManagementResponse */
         ManagementResponse: {
@@ -644,6 +1394,44 @@ export interface components {
             expense_krw: string;
             /** Balance Krw */
             balance_krw: string;
+        };
+        /** ParticipantCreate */
+        ParticipantCreate: {
+            birthday?: components["schemas"]["Birthday"] | null;
+            /** Name */
+            name: string;
+            /**
+             * Operation Id
+             * Format: uuid
+             */
+            operation_id: string;
+            /** Amount Krw */
+            amount_krw?: string | null;
+            /** Fee Month */
+            fee_month?: string | null;
+            /** Fee Start On */
+            fee_start_on?: string | null;
+        };
+        /** ParticipantUpdate */
+        ParticipantUpdate: {
+            birthday?: components["schemas"]["Birthday"] | null;
+            /** Name */
+            name: string;
+            /**
+             * Operation Id
+             * Format: uuid
+             */
+            operation_id: string;
+            /** Amount Krw */
+            amount_krw?: string | null;
+            /** Fee Month */
+            fee_month?: string | null;
+            /** Fee Start On */
+            fee_start_on?: string | null;
+            /** Replaces Fee Id */
+            replaces_fee_id?: string | null;
+            /** Expected Version */
+            expected_version: number;
         };
         /** PasswordLogin */
         PasswordLogin: {
@@ -691,6 +1479,66 @@ export interface components {
             recorded_at: string;
             /** Note */
             note: string;
+        };
+        /** Pin */
+        Pin: {
+            /** X */
+            x: number;
+            /** Y */
+            y: number;
+            /** Note */
+            note: string;
+            /**
+             * Label
+             * @default
+             */
+            label: string;
+            region?: components["schemas"]["PinRegion"] | null;
+            context?: components["schemas"]["PinContext"] | null;
+            /**
+             * Target
+             * @default
+             */
+            target: string;
+        };
+        /** PinContext */
+        PinContext: {
+            /**
+             * Schema Version
+             * @default 1
+             * @constant
+             */
+            schema_version: 1;
+            /** Component Id */
+            component_id: string;
+            /** Element Id */
+            element_id: string;
+            /** Locator */
+            locator: string;
+            /** Source File */
+            source_file: string;
+            /** Hierarchy */
+            hierarchy: string[];
+            /** Tag */
+            tag: string;
+        };
+        /** PinRegion */
+        PinRegion: {
+            /** Left */
+            left: number;
+            /** Top */
+            top: number;
+            /** Width */
+            width: number;
+            /** Height */
+            height: number;
+        };
+        /** ReconcileResult */
+        ReconcileResult: {
+            /** Matched Count */
+            matched_count: number;
+            /** Message */
+            message: string;
         };
         /** RegisterRequest */
         RegisterRequest: {
@@ -792,11 +1640,34 @@ export interface components {
              * @enum {string}
              */
             reconciliation_status: "reconciled" | "pending";
+            /** Occurred At */
+            occurred_at?: string | null;
+            /** Balance After Krw */
+            balance_after_krw?: string | null;
+            /** Memo */
+            memo?: string | null;
+            /** Source Document Id */
+            source_document_id?: string | null;
+            /** Source Document Title */
+            source_document_title?: string | null;
+            /** Source Document Filename */
+            source_document_filename?: string | null;
         };
         /** TransactionsResponse */
         TransactionsResponse: {
             /** Items */
             items: components["schemas"]["Transaction"][];
+            /** Income Krw */
+            income_krw: string;
+            /** Expense Krw */
+            expense_krw: string;
+            /** Net Krw */
+            net_krw: string;
+            /**
+             * Limit
+             * @default 50
+             */
+            limit: number;
             /** Next Cursor */
             next_cursor?: null;
             /** As Of */
@@ -804,9 +1675,16 @@ export interface components {
             /**
              * Data Mode
              * @default synthetic
-             * @constant
+             * @enum {string}
              */
-            data_mode: "synthetic";
+            data_mode: "synthetic" | "bank_import";
+            /** Total */
+            total?: number | null;
+            /**
+             * Offset
+             * @default 0
+             */
+            offset: number;
         };
         /** User */
         User: {
@@ -821,7 +1699,7 @@ export interface components {
              * Id
              * @enum {string}
              */
-            id: "approval" | "payment" | "balance" | "summary" | "flow" | "categories" | "recent";
+            id: "tasks" | "dues" | "support" | "approval" | "payment" | "balance" | "summary" | "flow" | "categories" | "recent";
             /**
              * Width
              * @default full
@@ -834,6 +1712,8 @@ export interface components {
              * @enum {string}
              */
             height: "compact" | "regular" | "tall";
+            /** Height Px */
+            height_px?: number | null;
             /**
              * Visible
              * @default true
@@ -1315,6 +2195,66 @@ export interface operations {
             };
         };
     };
+    flow_api_v1_families__family_id__dashboard_flow_get: {
+        parameters: {
+            query?: {
+                unit?: "week" | "month";
+            };
+            header?: never;
+            path: {
+                family_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FlowResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     dashboard_api_v1_families__family_id__dashboard_get: {
         parameters: {
             query?: {
@@ -1380,6 +2320,10 @@ export interface operations {
             query?: {
                 period?: "month" | "quarter";
                 direction?: "all" | "income" | "expense";
+                start_on?: string | null;
+                end_on?: string | null;
+                offset?: number;
+                limit?: number;
             };
             header?: never;
             path: {
@@ -1574,6 +2518,1104 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RolesResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    listing_api_v1_families__family_id__issues_get: {
+        parameters: {
+            query?: {
+                q?: string;
+                status?: ("received" | "investigating" | "needs_info" | "resolved") | null;
+                offset?: number;
+            };
+            header?: never;
+            path: {
+                family_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IssueList"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_api_v1_families__family_id__issues_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IssueCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IssueItem"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    detail_api_v1_families__family_id__issues__issue_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+                issue_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IssueItem"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    image_api_v1_families__family_id__issues__issue_id__image_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+                issue_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    event_api_v1_families__family_id__issues__issue_id__events_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+                issue_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IssueEventCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IssueItem"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    listing_api_v1_families__family_id__dues_get: {
+        parameters: {
+            query?: {
+                month?: string | null;
+            };
+            header?: never;
+            path: {
+                family_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DuesOverview"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    change_api_v1_families__family_id__dues_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DuesCommand"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DuesResult"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    reconcile_deposits_api_v1_families__family_id__dues_reconcile_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReconcileResult"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    create_participant_api_v1_families__family_id__participants_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ParticipantCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DuesResult"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    update_participant_api_v1_families__family_id__participants__participant_id__profile_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+                participant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ParticipantUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DuesResult"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    invite_participant_api_v1_families__family_id__participants__participant_id__invite_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+                participant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InvitationResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    listing_api_v1_families__family_id__documents_get: {
+        parameters: {
+            query?: {
+                kind?: ("bank" | "family") | null;
+                q?: string;
+                offset?: number;
+            };
+            header?: never;
+            path: {
+                family_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DocumentList"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    upload_api_v1_families__family_id__documents_post: {
+        parameters: {
+            query: {
+                kind: "bank" | "family";
+                title: string;
+                category?: string;
+                description?: string;
+                filename: string;
+                operation_id: string;
+                root_id?: string | null;
+            };
+            header?: never;
+            path: {
+                family_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/octet-stream": string;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DocumentItem"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    evidence_api_v1_families__family_id__documents_evidence_get: {
+        parameters: {
+            query?: {
+                q?: string;
+                offset?: number;
+            };
+            header?: never;
+            path: {
+                family_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ManagedEvidenceList"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    evidence_download_api_v1_families__family_id__documents_evidence__evidence_id__download_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+                evidence_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": unknown;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    synchronize_api_v1_families__family_id__documents__document_id__sync_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+                document_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DocumentItem"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    versions_api_v1_families__family_id__documents__document_id__versions_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+                document_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DocumentList"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Content */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    download_api_v1_families__family_id__documents__document_id__download_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                family_id: string;
+                document_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": unknown;
                 };
             };
             /** @description Unauthorized */

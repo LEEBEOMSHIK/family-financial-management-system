@@ -36,6 +36,12 @@ class Transaction(Model):
     amount_krw: Money
     category: str
     reconciliation_status: Literal["reconciled", "pending"]
+    occurred_at: str | None = None
+    balance_after_krw: Money | None = None
+    memo: str | None = None
+    source_document_id: str | None = None
+    source_document_title: str | None = None
+    source_document_filename: str | None = None
 
 
 class Monthly(Model):
@@ -52,11 +58,15 @@ class Category(Model):
 
 class DashboardResponse(Model):
     family_id: str
-    data_mode: Literal["synthetic"] = "synthetic"
+    data_mode: Literal["synthetic", "bank_import"] = "synthetic"
     as_of: str
     source: str
     period: Period
-    balance_krw: Money
+    balance_krw: Money | None
+    balance_as_of: str | None = None
+    summary_start: str | None = None
+    summary_end: str | None = None
+    coverage: list[str] = Field(default_factory=list)
     income_krw: Money
     expense_krw: Money
     net_krw: Money
@@ -68,9 +78,15 @@ class DashboardResponse(Model):
 
 class TransactionsResponse(Model):
     items: list[Transaction]
+    income_krw: Money
+    expense_krw: Money
+    net_krw: Money
+    limit: int = 50
     next_cursor: None = None
     as_of: str
-    data_mode: Literal["synthetic"] = "synthetic"
+    data_mode: Literal["synthetic", "bank_import"] = "synthetic"
+    total: int | None = None
+    offset: int = 0
 
 
 class ManagementResponse(Model):

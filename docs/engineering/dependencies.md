@@ -28,3 +28,8 @@ Next.js 설치 문서가 현재 제시하는 최소 Node는 20.9이지만 최소
 추가 도구 후보: [SQLAlchemy](https://docs.sqlalchemy.org/en/20/), [Alembic](https://alembic.sqlalchemy.org/en/latest/), [pytest](https://docs.pytest.org/en/stable/), [Ruff](https://docs.astral.sh/ruff/), [Playwright](https://playwright.dev/docs/intro).
 
 정확 버전·라이선스·공식 패키지 근거는 `apps/web/dependency-metadata.json`, `apps/api/dependency-metadata.json`에 기록했다. 재현 설치는 웹 package-lock.json과 API requirements.lock을 사용한다. `npm audit --audit-level=high`는 취약점 0개였다. 패치 없는 전이 의존성과 peer 충돌을 가져오던 eslint-config-next 대신 ESLint·typescript-eslint·React Hooks 설정을 사용한다. 이 결과는 검사 시점에 한정된다. [실행 및 검증](local-development.md).
+
+## 문의 화면 캡처 (2026-10-26)
+- html-to-image 1.11.13, MIT. npm exact·package-lock 고정. [공식 저장소/라이선스](https://github.com/bubkoo/html-to-image), [공식 릴리스](https://github.com/bubkoo/html-to-image/releases/tag/v1.11.13). 최신 릴리스 2025-02-14, npm 메타데이터 수정 2025-04-19 확인. 장기간 릴리스 공백이 있어 Chrome 실증 및 캡처 실패 fallback을 적용.
+- DOM 스타일·SVG를 이용하는 브라우저 내부 렌더러. 전체 데스크톱 녹화/외부 전송 없음. 이미지 업로드는 사용자 제출 시에만. CSS 전체 재현은 브라우저별 확인 필요.
+- html2canvas 대신 CSS 렌더링을 브라우저에 맡기는 html-to-image 선택. 설치 시 npm audit 0 vulnerabilities.
