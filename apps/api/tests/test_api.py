@@ -81,8 +81,9 @@ def test_csrf_login_logout_and_expiration(client):
 @pytest.mark.parametrize(
     "env,provider", [("production", "development"), ("development", "oidc"), ("", "")]
 )
-def test_non_development_startup_denied(env, provider):
-    with pytest.raises(RuntimeError, match="development"):
+def test_unsafe_runtime_startup_denied(env, provider):
+    message = "Production requires PostgreSQL password authentication" if env == "production" else "development"
+    with pytest.raises(RuntimeError, match=message):
         create_app(Config(env, provider))
 
 

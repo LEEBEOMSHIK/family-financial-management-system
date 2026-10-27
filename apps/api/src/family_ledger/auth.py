@@ -1,6 +1,6 @@
-"""Local password identities with revocable PostgreSQL sessions.
+"""Password identities with revocable PostgreSQL sessions.
 
-This provider is for a loopback development installation, not an Internet deployment.
+Production transport and startup constraints are enforced by runtime_config.
 """
 
 import hashlib

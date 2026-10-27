@@ -48,7 +48,7 @@ npm --prefix apps/web run build
 & apps/api/.venv-pg/Scripts/python.exe scripts/backup_database.py --verify-restore
 ```
 
-비공개 `var/postgres/backups`에 custom-format 백업을 만든다. 검증은 새 임시 DB에 복원하여 주요 7개 테이블의 건수를 비교한 뒤 그 임시 DB만 제거한다. 실제 복구도 새 DB에 복원하고 마이그레이션·건수·로그인·권한을 확인한 후 연결을 전환한다. 기존 DB를 덮어쓰지 않는다. `--no-owner --no-privileges` 복원 시 owner/runtime 권한을 별도로 재적용해야 한다.
+비공개 `var/postgres/backups`에 custom-format 백업을 만든다. 검증에는 기존 FINANCIAL_DATA_KEY를 비공개 환경변수로 주입해야 한다. 같은 스냅샷으로 백업·기준을 만든 뒤 새 임시 DB에 복원하여 모든 테이블 내용·금액 합계·암호문 복호화·원본 해시를 비교하고 그 임시 DB만 제거한다. 성공 요약은 비공개 verification.json으로 남긴다. [EC2 준비·복구 한계](../operations/ec2-readiness.md)를 따른다. 실제 복구도 새 DB에 복원하고 마이그레이션·건수·로그인·권한을 확인한 후 연결을 전환한다. 기존 DB를 덮어쓰지 않는다. `--no-owner --no-privileges` 복원 시 owner/runtime 권한을 별도로 재적용해야 한다.
 
 ## 검증
 API 통합 테스트는 `connection.json`의 `test_owner_dsn`과 `test_app_dsn`을 각각 `TEST_DATABASE_URL`, `TEST_APP_DATABASE_URL` 환경변수로 읽어서 실행한다. 연결 문자열을 출력하지 않는다. `pytest apps/api/tests -q`는 전용 테스트 DB에 고유 스키마를 생성·정리한다. Windows에서는 작업 폴더 안의 새 `--basetemp` 경로를 사용한다.
@@ -56,6 +56,6 @@ API 통합 테스트는 `connection.json`의 `test_owner_dsn`과 `test_app_dsn`�
 브라우저 검증은 `apps/api/.venv-pg/Scripts/python.exe scripts/test_service.py`. 테스트 전용 스키마·무작위 계정과 3001/8001 포트를 사용하고 종료 시 정리한다. 먼저 웹을 빌드해야 한다. 실제 개발 DB의 가족 계정을 테스트로 변경하지 않는다. 나머지 명령은 [로컬 개발](local-development.md)을 따른다.
 
 ## 남은 범위
-현재 주소는 이 PC에서만 접속된다. 다른 가족의 기기에서 사용하려면 배포·HTTPS·외부 접근 구성이 필요하다. 운영 인증 설정, 비밀번호 변경/복구, 계정 비활성화 UI, 실제 은행 연동 및 금융 업무 쓰기 API는 미구현이다. Linux와 스크린리더 실기 검증은 미수행이다.
+현재 주소는 이 PC에서만 접속된다. 다른 가족의 기기에서 사용하려면 배포·HTTPS·외부 접근 구성이 필요하다. 운영 HTTPS 인증 설정은 WB-09에서 분리했다. 실제 EC2/TLS 배포, 비밀번호 변경/복구, 계정 비활성화 UI, 실제 은행 연동 및 금융 업무 쓰기 API는 미구현이다. Linux와 스크린리더 실기 검증은 미수행이다.
 
 공식 근거: [PostgreSQL 초기화](https://www.postgresql.org/docs/18/app-initdb.html), [SCRAM 인증](https://www.postgresql.org/docs/18/auth-password.html), [Psycopg 설치](https://www.psycopg.org/psycopg3/docs/basic/install.html), [Python 3.14.9](https://www.python.org/downloads/release/python-3149/).

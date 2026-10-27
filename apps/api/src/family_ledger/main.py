@@ -1,4 +1,4 @@
-"""Loopback development API. Production startup is intentionally unsupported."""
+"""Family API with explicit development and HTTPS production configurations."""
 
 import os
 import secrets
@@ -31,12 +31,15 @@ from .models import (
     User,
 )
 from .roles import RoleError, RoleRepository
+from .runtime_config import production_origin, validate_production
 
 COOKIE = "family_session"
 
 
 def configured_origins() -> tuple[str, ...]:
     origin = os.getenv("WEB_ORIGIN")
+    if os.getenv("APP_ENV") == "production":
+        return (production_origin(origin or ""),)
     if not origin:
         return ("http://127.0.0.1:3000", "http://localhost:3000")
     parsed = urlsplit(origin)
@@ -90,7 +93,10 @@ def create_app(
         allowed_origins=configured_origins(),
         database_url=os.getenv("DATABASE_URL"),
     )
-    if config.app_env != "development" or config.auth_provider not in (
+    production = config.app_env == "production"
+    if production:
+        validate_production(config.auth_provider, config.database_url, config.allowed_origins)
+    elif config.app_env != "development" or config.auth_provider not in (
         "development",
         "local_password",
     ):
@@ -98,8 +104,11 @@ def create_app(
             "This local service requires APP_ENV=development and an explicit development or local_password provider"
         )
     app = FastAPI(
-        title="Family Ledger Development API",
+        title="Family Ledger API" if production else "Family Ledger Development API",
         version="0.1.0",
+        docs_url=None if production else "/docs",
+        redoc_url=None if production else "/redoc",
+        openapi_url=None if production else "/openapi.json",
         responses={
             401: {"model": ErrorResponse},
             403: {"model": ErrorResponse},
@@ -184,7 +193,7 @@ def create_app(
             else app.state.sessions.get(request.cookies.get(COOKIE, ""))
         )
         if session is None or session.expires_at <= app.state.clock():
-            raise AccessError(401, "AUTH_REQUIRED", "개발용 계정으로 로그인해 주세요.")
+            raise AccessError(401, "AUTH_REQUIRED", "로그인해 주세요.")
         capabilities = service.capabilities(
             session.user_id, session.family_id, app.state.clock()
         )
@@ -283,7 +292,7 @@ def create_app(
                 max_age=8 * 3600,
                 httponly=True,
                 samesite="strict",
-                secure=False,
+                secure=production,
                 path="/",
             )
             return session_response(session, capabilities)
@@ -356,7 +365,7 @@ def create_app(
         else:
             app.state.sessions.pop(request.cookies.get(COOKIE, ""), None)
         response = Response(status_code=204)
-        response.delete_cookie(COOKIE, path="/", httponly=True, samesite="strict")
+        response.delete_cookie(COOKIE, path="/", httponly=True, samesite="strict", secure=production)
         return response
 
     @app.get(
