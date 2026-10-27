@@ -53,6 +53,7 @@ test('managers store documents, preserve versions, download and manage bank orig
   await expect(page.getByRole('button', { name: '파일 찾아보기', exact: true })).toBeDisabled();
   await expect(page.getByRole('button', { name: '파일 제거', exact: true })).toBeDisabled();
   await page.getByRole('button', { name: '업로드 결과 확인', exact: true }).click();
+  await expect(page).toHaveURL(/documents\/family\?saved=/, { timeout: 15000 });
   await expect(page.getByRole('status').filter({ hasText: '문서를 저장했습니다' })).toBeVisible();
   await page.unroute('**/api/v1/families/*/documents?**');
   const cards = page.getByRole('region', { name: '문서 목록' }).getByRole('article');
@@ -85,9 +86,12 @@ test('managers store documents, preserve versions, download and manage bank orig
   await page.screenshot({ path: '../../var/documents-family-dark.png', fullPage: true });
   await page.emulateMedia({ colorScheme: 'light' });
   await nav.getByRole('link', { name: '통장 내역 문서', exact: true }).click();
+  await expect(page).toHaveURL(/documents\/bank$/);
   await page.getByRole('link', { name: '문서 업로드', exact: true }).click();
+  await expect(page.getByRole('heading', { name: '통장 내역 문서 업로드', exact: true })).toBeVisible();
   await page.getByLabel('문서 제목', { exact: true }).fill('합성 모임통장 10월');
   await page.getByLabel('파일 선택').setInputFiles({ name: 'synthetic.csv', mimeType: 'text/csv', buffer: Buffer.from('날짜,입금,출금\n2026-10-26,1000,0') });
+  await expect(page.locator('.document-selected-description')).toContainText('synthetic.csv');
   await page.getByRole('button', { name: '문서 저장', exact: true }).click();
   await expect(cards).toHaveCount(1);
   await expect(cards).toContainText('거래 미반영');

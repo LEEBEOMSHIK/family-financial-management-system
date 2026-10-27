@@ -40,6 +40,7 @@ test('uploaded deposits automatically settle dues and ambiguous deposits require
   expect(data.events.filter((e:{auto_matched:boolean})=>e.auto_matched)).toHaveLength(2);
   expect(data.members.find((m:{id:string})=>m.id===members[1]).paid_krw).toBe('900');
   await page.goto('/dashboard');
+  await expect(widget).toBeVisible({timeout:15000});
   await expect(widget.locator('.dues-metrics')).toContainText(Number(initial.today.slice(8))>1?'100원':'0원');
   await expect(widget.locator('.dues-metrics')).not.toContainText('—');
   await page.getByRole('button',{name:'회비 미납 현황 내용에 맞추기',exact:true}).click();

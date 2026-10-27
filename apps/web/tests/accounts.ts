@@ -11,4 +11,6 @@ export async function loginAs(page: Page, profile: Profile) {
   await page.getByLabel('아이디', { exact: true }).fill(credentials.username);
   await page.getByLabel('비밀번호', { exact: true }).fill(credentials.password);
   await page.getByRole('button', { name: '로그인', exact: true }).click();
+  // Authentication and the destination's data loading are separate waits.
+  await page.waitForURL('**/dashboard', { timeout: 15000 });
 }

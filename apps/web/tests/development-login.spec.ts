@@ -18,6 +18,7 @@ test('development login is gated and uses server account permissions', async ({ 
 });
 
 test('both local hostnames support every test role and dashboard data', async ({ page, baseURL }) => {
+  test.setTimeout(90_000); // Six complete sign-in/account flows, not a single page load.
   test.skip(process.env.ENABLE_DEV_LOGIN !== '1', 'Development accounts are disabled');
   for (const hostname of ['localhost', '127.0.0.1']) {
     const origin = new URL(baseURL!); origin.hostname = hostname;

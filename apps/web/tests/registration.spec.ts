@@ -19,7 +19,8 @@ test('admin invites a separate account and signup cannot choose a privileged rol
     await invitee.getByLabel('비밀번호', { exact: true }).fill(password);
     await invitee.getByLabel('비밀번호 확인', { exact: true }).fill(password);
     await invitee.getByRole('button', { name: '가입하고 시작하기' }).click();
-    await expect(invitee.getByTestId('balance')).toBeVisible();
+    await expect(invitee).toHaveURL(/dashboard$/, { timeout: 15000 });
+    await expect(invitee.getByTestId('balance')).toBeVisible({ timeout: 15000 });
     await expect(invitee.getByRole('link', { name: '권한 관리', exact: true })).toHaveCount(0);
     expect((await invitee.request.post('/api/v1/dev/session', { data: { profile: 'super_admin' } })).status()).toBe(process.env.ENABLE_DEV_LOGIN === '1' ? 403 : 404);
     await page.getByRole('button', { name: '목록 새로고침' }).click();
