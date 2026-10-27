@@ -35,3 +35,5 @@ API pytest 19개, Ruff, pip check 통과. 웹 typecheck, lint, 최적화 build �
 - 로컬 서비스 재시작 후 /login 200, 삭제된 /settings 404 확인. 실제 은행/카카오톡·운영 배포·실기 모바일은 이번 검증 범위 밖.
 
 - Git 결과: 기능 커밋 `13fff0b` 완료(147개 경로). `git push origin main`은 자동 승인 검토가 대상 저장소·전송 범위의 명시적 승인 필요를 이유로 거부하여 실행되지 않았다. 대상은 https://github.com/LEEBEOMSHIK/family-financial-management-system.git 의 main이며, 사용자 확인 후 정상 push가 다음 행동이다.
+
+- 후속 결과: 사용자가 저장소·main·147개 파일과 검증 기록 전송을 명시 승인하여 `git push origin main` 성공(`4c3eadd..494ef61`). 기능 `13fff0b`와 검증 기록 `494ef61` 반영 완료. 이번 후속은 문서 상태 갱신만 수행하며 제품 테스트는 재실행하지 않았다.
