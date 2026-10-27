@@ -16,7 +16,7 @@ def imported_dashboard(
         conn.execute("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY")
         repository.authority(conn, family, actor, now)
         syncs = conn.execute(
-            "SELECT period_start,period_end,requested_at FROM bank_statement_sync WHERE family_id=%s AND status='synced' ORDER BY period_end DESC,requested_at DESC,completed_at DESC,id",
+            "SELECT period_start,period_end,requested_at,completed_at FROM bank_statement_sync WHERE family_id=%s AND status='synced' ORDER BY period_end DESC,requested_at DESC,completed_at DESC,id",
             (family,),
         ).fetchall()
         if not syncs:
@@ -64,6 +64,8 @@ def imported_dashboard(
             data_mode="bank_import",
             period=period,
             as_of=latest["requested_at"].astimezone(KST).isoformat(),
+            last_synced_at=max(s["completed_at"] for s in syncs).astimezone(KST).isoformat(),
+            data_through=str(end),
             source="카카오뱅크 업로드 자료",
             balance_krw=str(recent[0]["balance_after_krw"]) if recent else None,
             balance_as_of=recent[0]["occurred_at"].astimezone(KST).isoformat()

@@ -37,3 +37,15 @@ API pytest 19개, Ruff, pip check 통과. 웹 typecheck, lint, 최적화 build �
 - Git 결과: 기능 커밋 `13fff0b` 완료(147개 경로). `git push origin main`은 자동 승인 검토가 대상 저장소·전송 범위의 명시적 승인 필요를 이유로 거부하여 실행되지 않았다. 대상은 https://github.com/LEEBEOMSHIK/family-financial-management-system.git 의 main이며, 사용자 확인 후 정상 push가 다음 행동이다.
 
 - 후속 결과: 사용자가 저장소·main·147개 파일과 검증 기록 전송을 명시 승인하여 `git push origin main` 성공(`4c3eadd..494ef61`). 기능 `13fff0b`와 검증 기록 `494ef61` 반영 완료. 이번 후속은 문서 상태 갱신만 수행하며 제품 테스트는 재실행하지 않았다.
+
+## 2026-10-27 사이드바 아이콘·포커스 수정 (WB-01 / R19)
+- 원인: 가족/문서/권한 메뉴가 management 아이콘을 재사용했고 문서 버튼의 양수 outline-offset이 스크롤 경계 밖으로 표시됨.
+- 변경: app-shell.tsx, document-navigation.tsx, ui/NavIcon.tsx에서 사람·폴더·방패 아이콘 구분. workspace.css에서 탐색 내부 포커스(3px/-3px), 스크롤바 공간·8px 여백 확보. 디자인 시스템에 기준 추가. API/DB 변경 없음.
+- 검증: npm --prefix apps/web run build 및 lint 통과, python scripts/validate_foundation.py PASS. scripts/test_service.py sidebar.spec.ts(격리 3101/8101 포트) 1 passed, 1440/900/390px에서 영역 경계·키보드 조작·문서 펼침·현재 페이지 유지 확인. 초기 검증은 미표시 outline을 표시된 테두리로 계산해 실패했고 outline-style을 반영한 검증으로 수정. 로컬 DB 접근은 sandbox 제한으로 실패 후 권한 확장 실행에서 통과.
+- 로컬 production 서비스 재시작 완료. 전체 업무 회귀·운영 배포·실기 모바일은 이번 범위 밖.
+
+## 2026-10-27 동기화 정보 공통 표시 (WB-07 / R06·R19)
+- 대시보드·입출금 응답에 last_synced_at/data_through(nullable) 추가, 계약과 생성 타입 갱신. 성공 sync의 max(completed_at)/max(period_end)를 사용하며 파일 요청시각(as_of)은 유지. 과거 파일 후속 업로드·빈 거래 파일·실패 업로드·필터 조회에도 가족 전체 자료 기준을 유지. DB 변경 없음, 기존 서버 가족 권한 검증 유지.
+- 변경 파일: API models.py 및 documents/dashboard.py, transactions.py; 웹 공통 bank-data-freshness.tsx 및 dashboard-view.tsx, transactions-view.tsx, workspace.css. 한국 시간으로 마지막 동기화와 거래내역 기준일을 나란히 표시, 모바일 줄바꿈. 합성 자료에는 실제 동기화 표시 없음.
+- 실행: pytest apps/api/tests/test_bank_dashboard.py apps/api/tests/test_bank_sync.py -q --tb=short(전용 DB/새 basetemp) 8 passed, 기존 Starlette 경고1. 과거 파일 후속 등록·실패 파일·조회 필터에 관계없는 기준값과 두 API 일치 검증. scripts/test_service.py zz-bank-sync.spec.ts(3101/8101 격리 실행) 1 passed: 두 화면 값 일치, 업로드·거래 조회 및 1440/390/320px 검증. npm build/lint, API ruff, foundation, git diff --check 통과.
+- 로컬 production 서비스 재시작 완료. 전체 회귀·실기 모바일·운영 배포는 미검증. 사용자 화면 확인 대기.

@@ -9,7 +9,7 @@ import { TransactionList } from './transaction-list';
 import { Select } from '../../components/ui/Select';
 import { Money } from '../../components/ui/Money';
 import { Button } from '../../components/ui/Button';
-import { dateLabel } from '../documents/document-shared';
+import { BankDataFreshness } from '../documents/bank-data-freshness';
 
 export function TransactionsView() {
   const session = useSession(); const [period, setPeriod] = useState('month'); const [direction, setDirection] = useState('all');
@@ -29,7 +29,8 @@ export function TransactionsView() {
     <label className="fl-field">페이지당 건수<select className="fl-input" value={limit} onChange={event=>{preferences.update({limit:Number(event.target.value)});setOffset(0);}}>{[20,50,100].map(value=><option value={value} key={value}>{value}건씩 보기</option>)}</select></label>
     <label className="transaction-totals-toggle"><input type="checkbox" role="switch" checked={showTotals} onChange={event=>preferences.update({showTotals:event.target.checked})} aria-controls="transaction-totals"/>합계 표시</label></div>
     {preferences.error&&<p role="status" className="muted">{preferences.error}</p>}
-    {resource.loading ? <Loading/> : resource.error ? <Failed message={resource.error} retry={resource.retry}/> : resource.data && <section className="fl-card"><p className="small muted">{real ? '카카오뱅크 업로드 자료' : '합성 거래 자료'} · {resource.data.total ?? resource.data.items.length}건{real && ` · 최신 파일 요청시각 ${dateLabel(resource.data.as_of)}`}</p>
+    {resource.loading ? <Loading/> : resource.error ? <Failed message={resource.error} retry={resource.retry}/> : resource.data && <section className="fl-card"><p className="small muted">{real ? '카카오뱅크 업로드 자료' : '합성 거래 자료'} · {resource.data.total ?? resource.data.items.length}건</p>
+      {real && <BankDataFreshness lastSyncedAt={resource.data.last_synced_at} dataThrough={resource.data.data_through}/>}
       {real && <p className="small muted">자세한 내용이나 증빙이 필요하면 총무·관리자에게 문의해 주세요.</p>}
       {showTotals&&<div id="transaction-totals" className="transaction-totals"><p className="small muted">현재 조회 조건 전체 {resource.data.total ?? 0}건 기준 · 페이지와 무관한 합계</p><dl><div><dt>입금 합계</dt><dd><Money amountKrw={resource.data.income_krw}/></dd></div><div><dt>출금 합계</dt><dd><Money amountKrw={resource.data.expense_krw}/></dd></div><div><dt>입출금 차액</dt><dd><Money amountKrw={resource.data.net_krw} showPositiveSign/></dd></div></dl></div>}
       <TransactionList items={resource.data.items}/>

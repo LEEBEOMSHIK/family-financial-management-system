@@ -21,12 +21,13 @@ def imported_transactions(
         raise AuthError(422, "INVALID_PERIOD", "시작일은 종료일보다 늦을 수 없습니다.")
     repository = BankRepository(dsn)
     with repository.connect() as conn:
+        conn.execute("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY")
         manager = repository.authority(conn, family, actor, now)
         latest = conn.execute(
-            "SELECT max(requested_at) AS as_of FROM bank_statement_sync WHERE family_id=%s AND status='synced'",
+            "SELECT max(requested_at) AS as_of,max(completed_at) AS last_synced_at,max(period_end) AS data_through FROM bank_statement_sync WHERE family_id=%s AND status='synced'",
             (family,),
-        ).fetchone()["as_of"]
-        if latest is None:
+        ).fetchone()
+        if latest["as_of"] is None:
             return None
         where = "t.family_id=%s AND (%s='all' OR (%s='income' AND t.amount_krw>0) OR (%s='expense' AND t.amount_krw<0)) AND (%s::date IS NULL OR (t.occurred_at AT TIME ZONE 'Asia/Seoul')::date>=%s) AND (%s::date IS NULL OR (t.occurred_at AT TIME ZONE 'Asia/Seoul')::date<=%s)"
         params = (family, direction, direction, direction, start, start, end, end)
@@ -42,7 +43,9 @@ def imported_transactions(
         ).fetchall()
         return TransactionsResponse(
             data_mode="bank_import",
-            as_of=latest.isoformat(),
+            as_of=latest["as_of"].isoformat(),
+            last_synced_at=latest["last_synced_at"].astimezone(KST).isoformat(),
+            data_through=str(latest["data_through"]),
             total=totals["total"],
             income_krw=str(totals["income"]),
             expense_krw=str(totals["expense"]),

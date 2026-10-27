@@ -27,6 +27,11 @@ test('bank original synchronizes once, exposes period and actual transactions, a
   await expect(page.getByTestId('transaction-row')).toHaveCount(2);
   await expect(page.getByText('합성 출금', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '원본 다운로드' })).toHaveCount(0);
+  const freshness = page.getByLabel('은행 자료 기준').locator('dd');
+  await expect(page.getByLabel('은행 자료 기준')).toContainText('마지막 동기화');
+  await expect(page.getByLabel('은행 자료 기준')).toContainText('거래내역 기준일');
+  await expect(page.getByLabel('은행 자료 기준')).toContainText('2026-01-31');
+  const transactionFreshness = await freshness.allTextContents();
   await expect(page.getByRole('columnheader')).toHaveText(['거래일', '내용', '구분', '금액']);
   await expect(page.getByTestId('transaction-row').first()).not.toContainText('메모');
   await expect(page.getByTestId('transaction-row').first()).not.toContainText('거래 후 잔액');
@@ -48,6 +53,8 @@ test('bank original synchronizes once, exposes period and actual transactions, a
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto('/dashboard');
   await expect(page.getByTestId('balance')).toHaveText('1,700원');
+  await expect(page.getByLabel('은행 자료 기준')).toContainText('거래내역 기준일');
+  expect(await page.getByLabel('은행 자료 기준').locator('dd').allTextContents()).toEqual(transactionFreshness);
   await expect(page.getByTestId('income')).toHaveText('1,000원');
   await expect(page.locator('.data-notice')).toContainText('카카오뱅크 업로드 자료');
   await expect(page.locator('.data-notice')).not.toContainText('개발용 합성 자료');

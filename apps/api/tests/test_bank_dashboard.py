@@ -35,9 +35,20 @@ def test_dashboard_uses_imports_and_latest_coverage_not_upload_order(accounts): 
         ).json()["sync"]["status"]
         == "synced"
     )
-    store(admin, ah, kind="bank", filename="old.csv", content=csv_file())
+    old = store(admin, ah, kind="bank", filename="old.csv", content=csv_file()).json()
     latest = member.get(ROOT + "/dashboard").json()
     assert latest["summary_end"] == "2026-02-28"
+    from datetime import datetime
+
+    assert latest["data_through"] == "2026-02-28"
+    assert datetime.fromisoformat(latest["last_synced_at"]) == datetime.fromisoformat(old["sync"]["completed_at"])
+    failed = store(admin, ah, kind="bank", filename="invalid.csv", content=b"invalid").json()
+    assert failed["sync"]["status"] != "synced"
+    after_failure = member.get(ROOT + "/dashboard").json()
+    transactions = member.get(ROOT + "/transactions?start_on=2026-01-01&end_on=2026-01-02").json()
+    for result in (after_failure, transactions):
+        assert result["data_through"] == latest["data_through"]
+        assert result["last_synced_at"] == latest["last_synced_at"]
     assert latest["income_krw"] == "0"
     assert latest["balance_krw"] == "1700"
     assert latest["balance_as_of"].startswith("2026-01-05")

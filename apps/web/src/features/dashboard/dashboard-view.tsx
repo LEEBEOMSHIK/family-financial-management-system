@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { BankDataFreshness } from '../documents/bank-data-freshness';
 import { Button } from '../../components/ui/Button';
 import { dateLabel } from '../documents/document-shared';
 import { useSession } from '../../components/app-shell';
@@ -20,7 +21,7 @@ export function DashboardView() {
   return <>
     <div className="page-title"><div><p className="eyebrow">OVERVIEW</p><h1>우리 가족의 돈, 한눈에</h1><p className="muted">함께 모은 돈과 최근 사용 내역을 확인하세요.</p></div><Link className="section-link" href="/transactions">상세 입출금 보기 <span aria-hidden="true">→</span></Link></div>
     {loading ? <Loading/> : error ? <Failed message={error} retry={retry}/> : data && <>
-      <div className="data-notice">{data.data_mode === 'synthetic' ? '개발용 합성 자료 · ' : ''}{data.source} · {data.data_mode === 'bank_import' ? '파일 요청시각' : '기준'} {dateLabel(data.as_of)} (한국 시간){data.data_mode === 'bank_import' && <p className="small">집계 기간 · {data.summary_start} ~ {data.summary_end}<br/>동기화된 자료 범위 · {(data.coverage ?? []).join(' / ')}<br/>등록된 거래만 집계합니다. 범위 밖 자료는 포함되지 않으며 은행 실시간 조회가 아닙니다.</p>}<Button variant="ghost" onClick={refresh}>최신 자료 새로고침</Button></div>
+      <div className="data-notice">{data.data_mode === 'synthetic' ? '개발용 합성 자료 · ' : ''}{data.source}{data.data_mode === 'bank_import' ? <BankDataFreshness lastSyncedAt={data.last_synced_at} dataThrough={data.data_through}/> : <> · 기준 {dateLabel(data.as_of)} (한국 시간)</>}{data.data_mode === 'bank_import' && <p className="small">집계 기간 · {data.summary_start} ~ {data.summary_end}<br/>동기화된 자료 범위 · {(data.coverage ?? []).join(' / ')}<br/>등록된 거래만 집계합니다. 범위 밖 자료는 포함되지 않으며 은행 실시간 조회가 아닙니다.</p>}<Button variant="ghost" onClick={refresh}>최신 자료 새로고침</Button></div>
       <DashboardWorkspace widgets={{
         support: <SupportWidget/>,
         tasks: <PaymentTasks/>,

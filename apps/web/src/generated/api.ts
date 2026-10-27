@@ -761,6 +761,10 @@ export interface components {
             data_mode: "synthetic" | "bank_import";
             /** As Of */
             as_of: string;
+            /** Last Synced At */
+            last_synced_at?: string | null;
+            /** Data Through */
+            data_through?: string | null;
             /** Source */
             source: string;
             /**
@@ -1672,6 +1676,10 @@ export interface components {
             next_cursor?: null;
             /** As Of */
             as_of: string;
+            /** Last Synced At */
+            last_synced_at?: string | null;
+            /** Data Through */
+            data_through?: string | null;
             /**
              * Data Mode
              * @default synthetic

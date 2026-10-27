@@ -60,6 +60,8 @@ class DashboardResponse(Model):
     family_id: str
     data_mode: Literal["synthetic", "bank_import"] = "synthetic"
     as_of: str
+    last_synced_at: str | None = None
+    data_through: str | None = None
     source: str
     period: Period
     balance_krw: Money | None
@@ -84,6 +86,8 @@ class TransactionsResponse(Model):
     limit: int = 50
     next_cursor: None = None
     as_of: str
+    last_synced_at: str | None = None
+    data_through: str | None = None
     data_mode: Literal["synthetic", "bank_import"] = "synthetic"
     total: int | None = None
     offset: int = 0
